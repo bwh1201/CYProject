@@ -36,7 +36,7 @@ cadet.pos = (WIDTH//3. HEIGHT//3)
 
 
 #Variables:
-
+     
 #Cadet-> stored as a list, [name, alive(bool), money(nested list with where it is?), frugal score, karma]
 
 #Timeline -> nested list shows where the cadet is at in the story
