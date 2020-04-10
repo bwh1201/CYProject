@@ -47,9 +47,11 @@ cadet.pos = (WIDTH//3. HEIGHT//3)
 
 #Money management -> 
 
-#General timeline-> opening screen pick character name, select mentors,  make initial financial decisions, 
+#General timeline-> opening screen pick character name, select mentors,  make initial financial decisions (how much money do you choose
+#to invest? how much do you want to spend on your class ring? Are you going to get engaged soon? How much do you want to spend on a car?), 
 #first free weekend,  major event 1(good or bad), remake selections, army-navy occurs, winter break plans, 
 #class weekend, major event #2, summer plans
+#Check in with the cadet in 5, 10, 20, and 30 years. Avatar changed to reflect age (character changes from cadet to LT to LTC to COL)
 
 
 
