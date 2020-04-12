@@ -50,28 +50,47 @@ karma = 0
 # money(nested list with where it is?), frugal score, karma]
 #cadet_life = [name, money]
 
+#global screen variables
+
+show_main = True
+welcome = False
+game_1 = False
+
 def draw():
-    screen.fill(GRAY)
-    make_screen()
     
-def make_screen():
+    if show_main == True:
+        home_screen()
+        
+    if welcome == True:
+        welcome_screen()
+        
+    
+    
+def home_screen():
     cadet.draw()
     start.draw()
     screen.draw.text('CASH COW', (250,100), color = RED)
     screen.draw.text("START", (375,393), color = GRAY)
+       
+def welcome_screen():        
+    
+    if welcome == True:
+        
+        screen.clear()
+        screen.fill(RED)
+        welcome_msg.draw()
+        
     
 def update():
-    pass
     update_welcome_screen()
 
  
 def update_welcome_screen():
-    screen.clear()
-    screen.fill(GRAY)
-    welcome_msg.draw()
+    pass
     
-
-
+def on_key_down(key):
+    if key == keys.SPACE:   
+        make_screen('home')
     
 def on_mouse_down(pos,button):
     #if button == mouse.LEFT and cadet.collidepoint(pos):
@@ -82,8 +101,11 @@ def on_mouse_down(pos,button):
         print('button1 chosen')
         
     if button == mouse.LEFT and start.collidepoint(pos):
-        screen.clear()
-        update_welcome_screen()
+        
+        global show_main 
+        global welcome
+        welcome = True
+        show_main = False
         print('Start the game')
         
         
