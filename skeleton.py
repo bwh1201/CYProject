@@ -109,7 +109,8 @@ def welcome_screen():
     screen.clear()
     screen.fill(RED)
     welcome_msg.draw()
-        
+
+#blake        
 def character_choices():
     #draw main background
     global gender_male
@@ -127,25 +128,31 @@ def character_choices():
     gender_female.draw()
     screen.draw.text('Female', (70,63))
     
-    
+#nick
 def life_choices():
     pass
-    
+
+#blake
 def select_mentors():
     pass
 
+#blake
 def free_weekend():
     pass
     
+#blake
 def life_event():
     pass
-    
+
+#nick
 def army_navy():
     pass
     
+#nick
 def leave_plans():
     pass
-
+    
+#nick
 def class_weekend():
     pass
 
