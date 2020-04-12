@@ -59,6 +59,12 @@ cadet_life = [name, gender, money, f_score, karma]
 show_main = True
 welcome = False
 game_1 = False
+game_2 = False
+game_3 = False
+game_4 = False
+game_5 = False
+game_6 = False
+game_7 = False
 
 def draw():
     
@@ -122,7 +128,28 @@ def character_choices():
     screen.draw.text('Female', (70,63))
     
     
-def initial_decisions():
+def life_choices():
+    pass
+    
+def select_mentors():
+    pass
+
+def free_weekend():
+    pass
+    
+def life_event():
+    pass
+    
+def army_navy():
+    pass
+    
+def leave_plans():
+    pass
+
+def class_weekend():
+    pass
+
+
 def update():
     pass
 
