@@ -41,6 +41,8 @@ button1.pos = (400,20)
 welcome_msg = Actor('welcome')
 welcome_msg.pos = (250,250)
 
+gender_female = Actor('element_grey_rectangle_glossy') 
+gender_male = Actor('element_grey_rectangle_glossy')
 life = True
 name = ''
 gender = ''
@@ -53,8 +55,7 @@ karma = 0
 cadet_life = [name, gender, money, f_score, karma]
 
 #global screen variables
-gender_female = Actor('element_grey_rectangle_glossy') 
-gender_male = Actor('element_grey_rectangle_glossy') 
+ 
 show_main = True
 welcome = False
 game_1 = False
@@ -68,8 +69,28 @@ def draw():
         welcome_screen()
     
     if game_1 == True:
-        initial_choices()
+        character_choices()
     
+    if game_2 == True:
+        life_choices()
+    
+    if game_3 == True:
+        select_mentors()
+        
+    if game_4 == True:
+        free_weekend()
+    
+    if game_5 == True:
+        life_event()
+    
+    if game_6 == True:
+        army_navy()
+    
+    if game_6 == True:
+        leave_plans()
+    
+    if game_7 == True:
+        class_weekend()
     
 def home_screen():
     cadet.draw()
@@ -83,7 +104,7 @@ def welcome_screen():
     screen.fill(RED)
     welcome_msg.draw()
         
-def initial_choices():
+def character_choices():
     #draw main background
     global gender_male
     global gender_female
@@ -101,6 +122,7 @@ def initial_choices():
     screen.draw.text('Female', (70,63))
     
     
+def initial_decisions():
 def update():
     pass
 
