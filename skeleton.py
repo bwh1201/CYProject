@@ -21,7 +21,7 @@ financial habits before they take out their Cow Loan. In this simulator, users w
 Things we need: clever name, image of cadet, backgrounds, 
 '''
 
-#Global Constants- main character, background, colros, bank
+#Global Constants- main character, background, colors, bank
 WIDTH = 500
 HEIGHT = 500
 
@@ -38,35 +38,55 @@ start.pos = (400,400)
 button1 = Actor('element_grey_rectangle_glossy')
 button1.pos = (400,20)
 
+welcome_msg = Actor('welcome')
+welcome_msg.pos = (250,250)
 
+life = True
+money = []
+f_score = 0
+karma = 0
+#name = input("What is your name?")
+#Cadet are stored as a list, [name, alive(bool),
+# money(nested list with where it is?), frugal score, karma]
+#cadet_life = [name, money]
 
 def draw():
     screen.fill(GRAY)
+    make_screen()
+    
+def make_screen():
     cadet.draw()
     start.draw()
-    button1.draw()
+    screen.draw.text('CASH COW', (250,100), color = RED)
     screen.draw.text("START", (375,393), color = GRAY)
     
-def buttons():
-    pass
-    draw.filled.rect(rect,(0,0,0))
-    
-    
 def update():
-    
     pass
+    update_welcome_screen()
+
+ 
+def update_welcome_screen():
+    screen.clear()
+    screen.fill(GRAY)
+    welcome_msg.draw()
+    
 
 
+    
 def on_mouse_down(pos,button):
-    if button == mouse.LEFT and cadet.collidepoint(pos):
-        print('Open menu')
+    #if button == mouse.LEFT and cadet.collidepoint(pos):
+        #print('Open menu')
         #opens menu
         
     if button == mouse.LEFT and button1.collidepoint(pos):
         print('button1 chosen')
         
     if button == mouse.LEFT and start.collidepoint(pos):
+        screen.clear()
+        update_welcome_screen()
         print('Start the game')
+        
+        
     
     
 def initial_choices():
