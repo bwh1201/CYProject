@@ -32,6 +32,12 @@ cadet.pos = (WIDTH//3. HEIGHT//3)
 
 
 
+def draw():
+    pass
+    
+def update():
+    pass
+    
 
 
 
