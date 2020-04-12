@@ -26,18 +26,58 @@ WIDTH = 500
 HEIGHT = 500
 
 GRAY = (138,138,138)
+RED = (200,0,0)
+
 
 cadet = Actor('cadet')
-cadet.pos = (WIDTH//3. HEIGHT//3)
+cadet.pos = (100, 300)
+
+start = Actor('button_default')
+start.pos = (400,400)
+
+button1 = Actor('element_grey_rectangle_glossy')
+button1.pos = (400,20)
 
 
 
 def draw():
+    screen.fill(GRAY)
+    cadet.draw()
+    start.draw()
+    button1.draw()
+    screen.draw.text("START", (375,393), color = GRAY)
+    
+def buttons():
     pass
+    draw.filled.rect(rect,(0,0,0))
+    
     
 def update():
-    pass
     
+    pass
+
+
+def on_mouse_down(pos,button):
+    if button == mouse.LEFT and cadet.collidepoint(pos):
+        print('Open menu')
+        #opens menu
+        
+    if button == mouse.LEFT and button1.collidepoint(pos):
+        print('button1 chosen')
+        
+    if button == mouse.LEFT and start.collidepoint(pos):
+        print('Start the game')
+    
+    
+def initial_choices():
+    pass
+    #create square with texts
+    
+    #allow mouse to click square
+    
+    #input numbers
+    
+    #
 
 
 
