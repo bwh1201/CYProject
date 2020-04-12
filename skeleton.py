@@ -42,16 +42,19 @@ welcome_msg = Actor('welcome')
 welcome_msg.pos = (250,250)
 
 life = True
+name = ''
+gender = ''
 money = []
 f_score = 0
 karma = 0
 #name = input("What is your name?")
 #Cadet are stored as a list, [name, alive(bool),
 # money(nested list with where it is?), frugal score, karma]
-#cadet_life = [name, money]
+cadet_life = [name, gender, money, f_score, karma]
 
 #global screen variables
-
+gender_female = Actor('element_grey_rectangle_glossy') 
+gender_male = Actor('element_grey_rectangle_glossy') 
 show_main = True
 welcome = False
 game_1 = False
@@ -63,7 +66,9 @@ def draw():
         
     if welcome == True:
         welcome_screen()
-        
+    
+    if game_1 == True:
+        initial_choices()
     
     
 def home_screen():
@@ -72,27 +77,44 @@ def home_screen():
     screen.draw.text('CASH COW', (250,100), color = RED)
     screen.draw.text("START", (375,393), color = GRAY)
        
-def welcome_screen():        
+def welcome_screen():
+        
+    screen.clear()
+    screen.fill(RED)
+    welcome_msg.draw()
+        
+def initial_choices():
+    #draw main background
+    global gender_male
+    global gender_female
     
-    if welcome == True:
-        
-        screen.clear()
-        screen.fill(RED)
-        welcome_msg.draw()
-        
+    screen.clear()
+    screen.draw.text('Select your gender:', (10,20), color = RED)
+    gender_male = Actor('element_grey_rectangle_glossy')
+    gender_male.pos = (33,70)
+    gender_male.draw()
+    screen.draw.text('Male', (12,63))
+    
+    
+    gender_female.pos = (100,70)
+    gender_female.draw()
+    screen.draw.text('Female', (70,63))
+    
     
 def update():
-    update_welcome_screen()
-
- 
-def update_welcome_screen():
     pass
+
     
 def on_key_down(key):
-    if key == keys.SPACE:   
-        make_screen('home')
+    global welcome
+    global game_1
+    if key == keys.SPACE and welcome == True:
+        welcome = False
+        game_1 = True
+        
     
 def on_mouse_down(pos,button):
+
     #if button == mouse.LEFT and cadet.collidepoint(pos):
         #print('Open menu')
         #opens menu
@@ -108,11 +130,10 @@ def on_mouse_down(pos,button):
         show_main = False
         print('Start the game')
         
-        
-    
-    
-def initial_choices():
-    pass
+    if game_1 = True and button == mouse.LEFT and gender_female.collidepoint(pos):
+        cadet_life[1] = 'female'
+    if game_1 = True and button == mouse.LEFT and gender_male.collidepoint(pos):    
+        cadet_life[1] = 'male'
     #create square with texts
     
     #allow mouse to click square
