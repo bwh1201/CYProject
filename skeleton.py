@@ -51,15 +51,18 @@ gender_male = Actor('button_default')
 next_button = Actor('element_red_rectangle')
 next_button.pos = (450,450)
 
+
+
+#name = input("What is your name?")
+#Cadet are stored as a list, [name, alive(bool),
+# money(nested list with where it is?), frugal score, karma]
 life = True
 name = ''
 gender = ''
 money = 36000
 f_score = 0
 karma = 0
-#name = input("What is your name?")
-#Cadet are stored as a list, [name, alive(bool),
-# money(nested list with where it is?), frugal score, karma]
+
 cadet_life = [name, gender, money, f_score, karma]
 
 #global screen variables
@@ -177,6 +180,7 @@ def life_choices():
     screen.fill(GRAY)
     screen.draw.text('Lets make some purchases', center = (250,100),color = GOLD)
     car_choice()
+    screen.draw.text(str(cadet_life[2]), center = (400,30), color = GOLD)
 
 
 #blake
@@ -264,14 +268,13 @@ def on_mouse_down(pos,button):
     global car_cheap
     if button == mouse.LEFT and car_cheap.collidepoint(pos):
       car_cheap = Actor('element_blue_rectangle_glossy')
-      cadet_life[2] = cadet_life[2] - 10,000
+      cadet_life[2] = cadet_life[2] - 10000
     
     global car_expensive
     if button == mouse.LEFT and car_expensive.collidepoint(pos):
       car_expensive = Actor('element_blue_rectangle_glossy')
-      cadet_life[2] = cadet_life[2] - 20,000
-      life_choi = False
-      mentor_bool = True
+      cadet_life[2] = cadet_life[2] - 20000
+      
     #create square with texts
     
     #allow mouse to click square
