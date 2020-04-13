@@ -1,7 +1,6 @@
 '''
 Name: Nick Ashby and Blake Havern
 Project Skeleton: Cow Loan Projection
-
 Description:
 The product that we wish to provide is a simulator that will allow cadets to practice their 
 financial habits before they take out their Cow Loan. In this simulator, users will not only
@@ -16,8 +15,6 @@ financial habits before they take out their Cow Loan. In this simulator, users w
  increase the aesthetic of the game.  Overall, the creation of this project will be entirely 
  in python using the skills we have learned from the course.  The final product will yield an
  entertaining and informative way for cadets to maximize their cow loan. 
-
-
 Things we need: clever name, image of cadet, backgrounds, 
 '''
 
@@ -27,10 +24,17 @@ HEIGHT = 500
 
 GRAY = (138,138,138)
 RED = (200,0,0)
+GOLD = (255,215,0)
+BLACK = (0,0,0)
 
 
 cadet = Actor('cadet')
 cadet.pos = (100, 300)
+
+car = Actor('car')
+car.pos = (250, 100)
+car_expensive = Actor('element_grey_rectangle_glossy')
+car_cheap = Actor('element_grey_rectangle_glossy')
 
 start = Actor('button_default')
 start.pos = (400,400)
@@ -41,8 +45,8 @@ button1.pos = (400,20)
 welcome_msg = Actor('welcome')
 welcome_msg.pos = (250,250)
 
-gender_female = Actor('element_grey_rectangle_glossy') 
-gender_male = Actor('element_grey_rectangle_glossy')
+gender_female = Actor('button_default') 
+gender_male = Actor('button_default')
 life = True
 name = ''
 gender = ''
@@ -99,15 +103,16 @@ def draw():
         class_weekend()
     
 def home_screen():
+    screen.fill(GRAY)
     cadet.draw()
     start.draw()
-    screen.draw.text('CASH COW', (250,100), color = RED)
-    screen.draw.text("START", (375,393), color = GRAY)
+    screen.draw.text('CASH COW', (250,100), color = GOLD, fontsize = 64)
+    screen.draw.text("START", (375,393), color = BLACK)
        
 def welcome_screen():
         
     screen.clear()
-    screen.fill(RED)
+    screen.fill(GRAY)
     welcome_msg.draw()
 
 #blake        
@@ -117,20 +122,51 @@ def character_choices():
     global gender_female
     
     screen.clear()
-    screen.draw.text('Select your gender:', (10,20), color = RED)
+    screen.fill(GRAY)
+    screen.draw.text('Select your gender:', center = (250, 100), color = GOLD, fontsize = 64)
     
-    gender_male.pos = (33,70)
+    gender_male.pos = (150,170)
     gender_male.draw()
-    screen.draw.text('Male', (12,63))
+    screen.draw.text('Male', center = (150, 170), color = BLACK)
     
     
-    gender_female.pos = (100,70)
+    gender_female.pos = (350,170)
     gender_female.draw()
-    screen.draw.text('Female', (70,63))
-    
+    screen.draw.text('Female', center = (350,170), color = BLACK)
+
 #nick
+def car_choice():
+    global car_cheap
+    global car_expensive
+    
+    screen.clear()
+    screen.fill(GRAY)
+    car.draw.text("What car do you want to buy:", (10,20), color = GOLD)
+    
+    car_cheap.pos(33,70)
+    car_cheap.draw()
+    screen.draw.text('Cheap', (12,63), color = BLACK)
+    
+    car_expensive.pos = (100, 70)
+    car_expensive.draw()
+    screen.draw.text('Expensive', (70,63), color = BLACK)
+
+def loan_choice():
+    screen.clear()
+    screen.fill(GRAY)
+    screen.draw.text("Do you want to take the Cow Loan (approximately $36,000 in 2020)",center = (250,100), color = GOLD)
+    
+    
 def life_choices():
-    pass
+    
+    screen.clear()
+    screen.fill(GRAY)
+    screen.draw.text('Lets make some purchases', center = (250,100),color = GOLD)
+    car_choice()
+
+
+    
+    
 
 #blake
 def select_mentors():
@@ -179,7 +215,7 @@ def on_mouse_down(pos,button):
         print('button1 chosen')
         
     if button == mouse.LEFT and start.collidepoint(pos):
-        
+      
         global show_main 
         global welcome
         welcome = True
@@ -188,12 +224,31 @@ def on_mouse_down(pos,button):
         
     global gender_female    
     if button == mouse.LEFT and gender_female.collidepoint(pos):
+        gender_female = Actor('button_selected')
         cadet_life[1] = 'female'
+        game_2 = True
+        game_1 = False
+        
     global gender_male    
     if button == mouse.LEFT and gender_male.collidepoint(pos): 
-        gender_male = Actor('element_blue_rectangle_glossy')
+        gender_male = Actor('button_selected')
         cadet_life[1] = 'male'
-        
+        game_2 = True
+        game_1 = False
+    
+    global car_cheap
+    if button == mouse.LEFT and car_cheap.collidepoint(pos):
+      car_cheap = Actor('element_blue_rectangle_glossy')
+      cadet_life[2] -= 10,000
+      game_2 = False
+      game_3 = True
+    
+    global car_expensive
+    if button == mouse.LEFT and car_expensive.collidepoint(pos):
+      car_expensive = Actor('element_blue_rectangle_glossy')
+      cadet_life[2] -= 20,000
+      game_2 = False
+      game_3 = True
     #create square with texts
     
     #allow mouse to click square
@@ -221,10 +276,3 @@ def on_mouse_down(pos,button):
 #first free weekend,  major event 1(good or bad), remake selections, army-navy occurs, winter break plans, 
 #class weekend, major event #2, summer plans
 #Check in with the cadet in 5, 10, 20, and 30 years. Avatar changed to reflect age (character changes from cadet to LT to LTC to COL)
-
-
-
-
-
-
-
