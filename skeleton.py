@@ -128,7 +128,13 @@ def welcome_screen():
 
 #blake        
 def character_choices():
+    gender()
+    cadet_name()
+    
     #draw main background
+    
+def gender():
+
     global gender_male
     global gender_female
     
@@ -146,8 +152,13 @@ def character_choices():
     gender_female.draw()
     screen.draw.text('Female', center = (350,170), color = BLACK)
     
+    
     next_button.draw()
 
+def cadet_name():
+    global name
+    
+    
 #nick
 def car_choice():
     global car_cheap
@@ -175,13 +186,12 @@ def loan_choice():
     
 def life_choices():
 
-    next_button.draw()
     screen.clear()
     screen.fill(GRAY)
     screen.draw.text('Lets make some purchases', center = (250,100),color = GOLD)
     car_choice()
     screen.draw.text(str(cadet_life[2]), center = (400,30), color = GOLD)
-
+    next_button.draw()
 
 #blake
 def select_mentors():
