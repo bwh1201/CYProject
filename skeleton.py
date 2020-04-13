@@ -31,10 +31,12 @@ BLACK = (0,0,0)
 cadet = Actor('cadet')
 cadet.pos = (100, 300)
 
-car = Actor('car')
-car.pos = (250, 100)
-car_expensive = Actor('element_grey_rectangle_glossy')
-car_cheap = Actor('element_grey_rectangle_glossy')
+car_cheap = Actor('car_cheap')
+car_cheap.pos = (150,400)
+car_expensive = Actor('car_expensive')
+car_expensive.pos = (350,400)
+car_expensive_text = Actor('button_default')
+car_cheap_text = Actor('button_default')
 
 start = Actor('button_default')
 start.pos = (400,400)
@@ -71,14 +73,14 @@ cadet_life = [name, gender, money, f_score, karma]
 show_main = True
 welcome = False
 char_choice = False
-life_choi = False
+life_choice = False
 mentor_bool = False
 f_weekend = False
 major_event = False
 arm_nav = False
 leave_plan = False
 class_week = False
-bool_list = [show_main,welcome,char_choice,life_choi,mentor_bool,f_weekend,major_event, arm_nav, leave_plan, class_week]
+bool_list = [show_main,welcome,char_choice,life_choice,mentor_bool,f_weekend,major_event, arm_nav, leave_plan, class_week]
 
 def draw():
     global bool_list
@@ -157,16 +159,20 @@ def car_choice():
     
     screen.clear()
     screen.fill(GRAY)
-    screen.draw.text("What car do you want to buy:", (10,20), color = GOLD)
-    
-    car_cheap.pos =(33,70)
     car_cheap.draw()
-    screen.draw.text('Cheap', (12,63), color = BLACK)
-    
-    car_expensive.pos = (100, 70)
     car_expensive.draw()
-    screen.draw.text('Expensive', (70,63), color = BLACK)
-
+    screen.draw.text("What car do you want to buy:", center = (250, 100), color = GOLD, fontsize = 50)
+    
+    car_cheap_text.pos =(150,170)
+    car_cheap_text.draw()
+    screen.draw.text('Cheap', center = (150,170), color = BLACK)
+    
+    car_expensive_text.pos = (350, 170)
+    car_expensive_text.draw()
+    screen.draw.text('Expensive', center = (350,170), color = BLACK)
+    
+    next_button.draw()
+    
 def loan_choice():
     screen.clear()
     screen.fill(GRAY)
@@ -255,25 +261,27 @@ def on_mouse_down(pos,button):
         bool_list[1] = True
         print('Start the game')
         
-    global gender_female    
-    if button == mouse.LEFT and gender_female.collidepoint(pos):
-        gender_female = Actor('button_selected')
-        cadet_life[1] = 'female'
-        
+    global gender_female 
     global gender_male    
+    if button == mouse.LEFT and gender_female.collidepoint(pos):
+      if char_choice == True:
+          gender_female = Actor('button_selected')
+          cadet_life[1] = 'female'
     if button == mouse.LEFT and gender_male.collidepoint(pos): 
-        gender_male = Actor('button_selected')
-        cadet_life[1] = 'male'
-    
+      if char_choice == True:
+          gender_male = Actor('button_selected')
+          cadet_life[1] = 'male'
+
     global car_cheap
-    if button == mouse.LEFT and car_cheap.collidepoint(pos):
-      car_cheap = Actor('element_blue_rectangle_glossy')
-      cadet_life[2] = cadet_life[2] - 10000
-    
     global car_expensive
+    if button == mouse.LEFT and car_cheap.collidepoint(pos):
+      if life_choice == True:
+        car_cheap = Actor('button_selected')
+        cadet_life[2] = cadet_life[2] - 10000
     if button == mouse.LEFT and car_expensive.collidepoint(pos):
-      car_expensive = Actor('element_blue_rectangle_glossy')
-      cadet_life[2] = cadet_life[2] - 20000
+      if life_choice == True:
+        car_expensive = Actor('button_selected')
+        cadet_life[2] = cadet_life[2] - 20000
       
     #create square with texts
     
