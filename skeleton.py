@@ -54,7 +54,7 @@ next_button.pos = (450,450)
 life = True
 name = ''
 gender = ''
-money = []
+money = 36000
 f_score = 0
 karma = 0
 #name = input("What is your name?")
@@ -67,14 +67,15 @@ cadet_life = [name, gender, money, f_score, karma]
 
 show_main = True
 welcome = False
-game_1 = False
-game_2 = False
-game_3 = False
-game_4 = False
-game_5 = False
-game_6 = False
-game_7 = False
-bool_list = [show_main,welcome,game_1,game_2,game_3,game_4,game_5, game_6, game_7, False]
+char_choice = False
+life_choi = False
+mentor_bool = False
+f_weekend = False
+major_event = False
+arm_nav = False
+leave_plan = False
+class_week = False
+bool_list = [show_main,welcome,char_choice,life_choi,mentor_bool,f_weekend,major_event, arm_nav, leave_plan, class_week]
 
 def draw():
     global bool_list
@@ -149,6 +150,8 @@ def car_choice():
     global car_cheap
     global car_expensive
     
+   
+    
     screen.clear()
     screen.fill(GRAY)
     screen.draw.text("What car do you want to buy:", (10,20), color = GOLD)
@@ -164,54 +167,58 @@ def car_choice():
 def loan_choice():
     screen.clear()
     screen.fill(GRAY)
-    screen.draw.text("Do you want to take the Cow Loan (approximately $36,000 in 2020)",center = (250,100), color = GOLD)
+    screen.draw.text("Do you wish to take the Cow Loan (approximately $36,000 in 2020)",center = (250,100), color = GOLD)
     
     
 def life_choices():
-    
+
+    next_button.draw()
     screen.clear()
     screen.fill(GRAY)
     screen.draw.text('Lets make some purchases', center = (250,100),color = GOLD)
     car_choice()
 
 
-    
-    
-
 #blake
 def select_mentors():
-    pass
+    screen.fill(GRAY)
+    
 
 #blake
 def free_weekend():
-    pass
+    screen.fill(GRAY)
+
     
 #blake
 def life_event():
-    pass
+   screen.fill(GRAY)
+
 
 #nick
 def army_navy():
-    pass
+    screen.fill(GRAY)
+
     
 #nick
 def leave_plans():
-    pass
+    screen.fill(GRAY)
+
     
 #nick
 def class_weekend():
-    pass
+    screen.fill(GRAY)
+
 
 
 def update():
-    pass
+    screen.fill(GRAY)
+
 
     
 def on_key_down(key):
 
     global bool_list
-    global welcome
-    global game_1
+    
     if key == keys.SPACE and bool_list[1] == True:
         bool_list[1] = False
         bool_list[2] = True
@@ -223,6 +230,8 @@ def on_mouse_down(pos,button):
         #print('Open menu')
         #opens menu
     global bool_list
+    global cadet_life
+    
     if button == mouse.LEFT and next_button.collidepoint(pos):
         x = True
         i = 0
@@ -246,29 +255,23 @@ def on_mouse_down(pos,button):
     if button == mouse.LEFT and gender_female.collidepoint(pos):
         gender_female = Actor('button_selected')
         cadet_life[1] = 'female'
-        game_2= True
-        game_1 = False
         
     global gender_male    
     if button == mouse.LEFT and gender_male.collidepoint(pos): 
         gender_male = Actor('button_selected')
         cadet_life[1] = 'male'
-        game_2 = True
-        game_1 = False
     
     global car_cheap
     if button == mouse.LEFT and car_cheap.collidepoint(pos):
       car_cheap = Actor('element_blue_rectangle_glossy')
-      cadet_life[2] -= 10,000
-      game_2 = False
-      game_3 = True
+      cadet_life[2] = cadet_life[2] - 10,000
     
     global car_expensive
     if button == mouse.LEFT and car_expensive.collidepoint(pos):
       car_expensive = Actor('element_blue_rectangle_glossy')
-      cadet_life[2] -= 20,000
-      game_2 = False
-      game_3 = True
+      cadet_life[2] = cadet_life[2] - 20,000
+      life_choi = False
+      mentor_bool = True
     #create square with texts
     
     #allow mouse to click square
