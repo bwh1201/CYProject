@@ -41,6 +41,8 @@ button1.pos = (400,20)
 welcome_msg = Actor('welcome')
 welcome_msg.pos = (250,250)
 
+gender_female = Actor('element_grey_rectangle_glossy') 
+gender_male = Actor('element_grey_rectangle_glossy')
 life = True
 name = ''
 gender = ''
@@ -53,11 +55,16 @@ karma = 0
 cadet_life = [name, gender, money, f_score, karma]
 
 #global screen variables
-gender_female = Actor('element_grey_rectangle_glossy') 
-gender_male = Actor('element_grey_rectangle_glossy') 
+ 
 show_main = True
 welcome = False
 game_1 = False
+game_2 = False
+game_3 = False
+game_4 = False
+game_5 = False
+game_6 = False
+game_7 = False
 
 def draw():
     
@@ -68,8 +75,28 @@ def draw():
         welcome_screen()
     
     if game_1 == True:
-        initial_choices()
+        character_choices()
     
+    if game_2 == True:
+        life_choices()
+    
+    if game_3 == True:
+        select_mentors()
+        
+    if game_4 == True:
+        free_weekend()
+    
+    if game_5 == True:
+        life_event()
+    
+    if game_6 == True:
+        army_navy()
+    
+    if game_6 == True:
+        leave_plans()
+    
+    if game_7 == True:
+        class_weekend()
     
 def home_screen():
     cadet.draw()
@@ -82,15 +109,16 @@ def welcome_screen():
     screen.clear()
     screen.fill(RED)
     welcome_msg.draw()
-        
-def initial_choices():
+
+#blake        
+def character_choices():
     #draw main background
     global gender_male
     global gender_female
     
     screen.clear()
     screen.draw.text('Select your gender:', (10,20), color = RED)
-    gender_male = Actor('element_grey_rectangle_glossy')
+    
     gender_male.pos = (33,70)
     gender_male.draw()
     screen.draw.text('Male', (12,63))
@@ -100,7 +128,35 @@ def initial_choices():
     gender_female.draw()
     screen.draw.text('Female', (70,63))
     
+#nick
+def life_choices():
+    pass
+
+#blake
+def select_mentors():
+    pass
+
+#blake
+def free_weekend():
+    pass
     
+#blake
+def life_event():
+    pass
+
+#nick
+def army_navy():
+    pass
+    
+#nick
+def leave_plans():
+    pass
+    
+#nick
+def class_weekend():
+    pass
+
+
 def update():
     pass
 
@@ -114,7 +170,7 @@ def on_key_down(key):
         
     
 def on_mouse_down(pos,button):
-
+    
     #if button == mouse.LEFT and cadet.collidepoint(pos):
         #print('Open menu')
         #opens menu
@@ -130,10 +186,14 @@ def on_mouse_down(pos,button):
         show_main = False
         print('Start the game')
         
-    if game_1 = True and button == mouse.LEFT and gender_female.collidepoint(pos):
+    global gender_female    
+    if button == mouse.LEFT and gender_female.collidepoint(pos):
         cadet_life[1] = 'female'
-    if game_1 = True and button == mouse.LEFT and gender_male.collidepoint(pos):    
+    global gender_male    
+    if button == mouse.LEFT and gender_male.collidepoint(pos): 
+        gender_male = Actor('element_blue_rectangle_glossy')
         cadet_life[1] = 'male'
+        
     #create square with texts
     
     #allow mouse to click square
