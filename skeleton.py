@@ -47,6 +47,10 @@ welcome_msg.pos = (250,250)
 
 gender_female = Actor('button_default') 
 gender_male = Actor('button_default')
+
+next_button = Actor('element_red_rectangle')
+next_button.pos = (450,450)
+
 life = True
 name = ''
 gender = ''
@@ -59,7 +63,8 @@ karma = 0
 cadet_life = [name, gender, money, f_score, karma]
 
 #global screen variables
- 
+
+
 show_main = True
 welcome = False
 game_1 = False
@@ -69,37 +74,39 @@ game_4 = False
 game_5 = False
 game_6 = False
 game_7 = False
+bool_list = [show_main,welcome,game_1,game_2,game_3,game_4,game_5, game_6, game_7, False]
 
 def draw():
+    global bool_list
     
-    if show_main == True:
+    if bool_list[0] == True:
         home_screen()
         
-    if welcome == True:
+    if bool_list[1] == True:
         welcome_screen()
     
-    if game_1 == True:
+    if bool_list[2] == True:
         character_choices()
     
-    if game_2 == True:
+    if bool_list[3] == True:
         life_choices()
     
-    if game_3 == True:
+    if bool_list[4] == True:
         select_mentors()
         
-    if game_4 == True:
+    if bool_list[5] == True:
         free_weekend()
     
-    if game_5 == True:
+    if bool_list[6] == True:
         life_event()
     
-    if game_6 == True:
+    if bool_list[7] == True:
         army_navy()
     
-    if game_6 == True:
+    if bool_list[8] == True:
         leave_plans()
     
-    if game_7 == True:
+    if bool_list[9] == True:
         class_weekend()
     
 def home_screen():
@@ -121,6 +128,7 @@ def character_choices():
     global gender_male
     global gender_female
     
+    
     screen.clear()
     screen.fill(GRAY)
     screen.draw.text('Select your gender:', center = (250, 100), color = GOLD, fontsize = 64)
@@ -133,6 +141,8 @@ def character_choices():
     gender_female.pos = (350,170)
     gender_female.draw()
     screen.draw.text('Female', center = (350,170), color = BLACK)
+    
+    next_button.draw()
 
 #nick
 def car_choice():
@@ -141,9 +151,9 @@ def car_choice():
     
     screen.clear()
     screen.fill(GRAY)
-    car.draw.text("What car do you want to buy:", (10,20), color = GOLD)
+    screen.draw.text("What car do you want to buy:", (10,20), color = GOLD)
     
-    car_cheap.pos(33,70)
+    car_cheap.pos =(33,70)
     car_cheap.draw()
     screen.draw.text('Cheap', (12,63), color = BLACK)
     
@@ -198,11 +208,13 @@ def update():
 
     
 def on_key_down(key):
+
+    global bool_list
     global welcome
     global game_1
-    if key == keys.SPACE and welcome == True:
-        welcome = False
-        game_1 = True
+    if key == keys.SPACE and bool_list[1] == True:
+        bool_list[1] = False
+        bool_list[2] = True
         
     
 def on_mouse_down(pos,button):
@@ -210,23 +222,31 @@ def on_mouse_down(pos,button):
     #if button == mouse.LEFT and cadet.collidepoint(pos):
         #print('Open menu')
         #opens menu
+    global bool_list
+    if button == mouse.LEFT and next_button.collidepoint(pos):
+        x = True
+        i = 0
+        while x is True:
+            if bool_list[i] == True:
+                bool_list[i] = False
+                bool_list[i+1] = True
+                x = False
+            i+=1
         
     if button == mouse.LEFT and button1.collidepoint(pos):
         print('button1 chosen')
         
     if button == mouse.LEFT and start.collidepoint(pos):
-      
-        global show_main 
-        global welcome
-        welcome = True
-        show_main = False
+       
+        bool_list[0] = False
+        bool_list[1] = True
         print('Start the game')
         
     global gender_female    
     if button == mouse.LEFT and gender_female.collidepoint(pos):
         gender_female = Actor('button_selected')
         cadet_life[1] = 'female'
-        game_2 = True
+        game_2= True
         game_1 = False
         
     global gender_male    
