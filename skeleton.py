@@ -19,26 +19,19 @@ financial habits before they take out their Cow Loan. In this simulator, users w
 Things we need: clever name, image of cadet, backgrounds, 
 '''
 
-#Global Constants- main character, background, colors, bank
+#Global Constants- background, colors, bank
 WIDTH = 500
 HEIGHT = 500
-
 GRAY = (138,138,138)
 RED = (200,0,0)
 GOLD = (255,215,0)
 BLACK = (0,0,0)
 
-
+#Global Variables - Characters, boxes, pictures, etc.
 cadet = Actor('cadet')
 cadet.pos = (100, 300)
 
-car = Actor('car')
-car.pos = (250, 100)
-car_expensive = Actor('element_grey_rectangle_glossy')
-car_cheap = Actor('element_grey_rectangle_glossy')
-
 start = Actor('button_default')
-start.pos = (400,400)
 
 button1 = Actor('element_grey_rectangle_glossy')
 button1.pos = (400,20)
@@ -52,7 +45,10 @@ gender_male = Actor('button_default')
 next_button = Actor('element_red_rectangle')
 next_button.pos = (450,450)
 
-
+car = Actor('car')
+car.pos = (250, 100)
+car_expensive = Actor('element_grey_rectangle_glossy')
+car_cheap = Actor('element_grey_rectangle_glossy')
 
 #name = input("What is your name?")
 #Cadet are stored as a list, [name, alive(bool),
@@ -81,7 +77,13 @@ leave_plan = False
 class_week = False
 bool_list = [show_main,welcome,char_choice,life_choi,mentor_bool,f_weekend,major_event, arm_nav, leave_plan, class_week]
 
+#Procedure: draw
+# This manages the flow of the game from screen to screen
+#None -> None
 def draw():
+ """As the program loops through multiple times per second, this procedure determines what will be displayed.
+ whatever element of the main control list == True when the program loops through this list corresponds
+ to a function, which displays a specific screen"""
     global bool_list
     
     if bool_list[0] == True:
@@ -113,29 +115,48 @@ def draw():
     
     if bool_list[9] == True:
         class_weekend()
-    
+
+#Procedure: home_screen
+#numbers represent position and fontsize, letters represent colors and text
+#None -> None
 def home_screen():
+ """Displays the homescreen of the pygame (background, cadet picture, title"""
     screen.fill(GRAY)
     cadet.draw()
     start.draw()
     screen.draw.text('CASH COW', (250,100), color = GOLD, fontsize = 64)
     screen.draw.text("START", (375,393), color = BLACK)
-       
+ 
+#Procedure: welcome_screen
+#Objects represent themselves
+#None -> None
 def welcome_screen():
-        
+   """Displays the welcome screen with our welcome message (detailed instructions, 
+   creators' biographies, navigation in the game)
+   """     
     screen.clear()
     screen.fill(GRAY)
     welcome_msg.draw()
 
-#blake        
+#blake
+#procedure: character_choices
+#Objects represent themselves
+#None -> None
 def character_choices():
+ """Prompts user to select their gender and their name. In conjunction with
+ on_mouse_down, modifies the user's list to display the appropriate avatar
+ and player name
+ """
     gender()
     cadet_name()
-    
-    #draw main background
-    
-def gender():
 
+#Procedure: gender
+#Objects reprent a button for male and female
+#None -> None
+def gender():
+ """Offers the user two buttons to select their gender. Modifies
+ cadet_lift list to reflect their selections.
+ """
     global gender_male
     global gender_female
     
@@ -155,13 +176,26 @@ def gender():
     
     
     next_button.draw()
-
+#Prodedure: cadet_name
+#Strings represnet a person's screen name
+#None -> None
 def cadet_name():
+ """References an input function that requests a person enter
+ their name.
+ """
     global name
     
     
 #nick
+#Procedure: car_choice
+#Objects represent two buttons for users to select what 
+# car they'd like to buy.
+#None -> None
 def car_choice():
+ """Prompts users to select one of two cars they'd like
+ to buy. This decision is reflected in their bank account,
+ which is displayed in the top right of the screen.
+ """
     global car_cheap
     global car_expensive
     
@@ -178,15 +212,14 @@ def car_choice():
     car_expensive.pos = (100, 70)
     car_expensive.draw()
     screen.draw.text('Expensive', (70,63), color = BLACK)
-
-def loan_choice():
-    screen.clear()
-    screen.fill(GRAY)
-    screen.draw.text("Do you wish to take the Cow Loan (approximately $36,000 in 2020)",center = (250,100), color = GOLD)
-    
-    
+  
+#Procedure life_choices
+#Objects represent a screen where users will make purchases.
+#None -> None
 def life_choices():
-
+ """Calls multiple functions and displays the options they present on screen.
+ Displays a next button at the bottom of the screen to navigate as well.
+ """
     screen.clear()
     screen.fill(GRAY)
     screen.draw.text('Lets make some purchases', center = (250,100),color = GOLD)
@@ -195,52 +228,102 @@ def life_choices():
     next_button.draw()
 
 #blake
+#Procedure: select_mentors
+#Object represents a screen where users can make a decision
+# None -> None
 def select_mentors():
+ """Presents a screen to users which allows them to choose whether or not they'd
+ like a mentor through this process. The mentor will always instruct them to 
+ follow the safest option.
+ """
     screen.fill(GRAY)
     
 
 #blake
+#Procedure: free_weekend
+#Object represets a screen where users can make a decision
+# None -> None
 def free_weekend():
+ """Presents a screen to users asking them how they would spend their free weekend.
+ Choices will subtract various amounts of money from users' bank accounts.
+ """
     screen.fill(GRAY)
 
     
 #blake
+#Procedure: life_event
+#Object represents a screen where users can make a decision
+# None -> None
 def life_event():
+ """Presents a user with a random life event (engagement, family member hospitalization, etc) and
+ prompts them to respond. Responses will subtract various amounts of money from users' bank accounts.
+ """
    screen.fill(GRAY)
 
 
 #nick
+#Procedure: army_navy
+#Object represents a screen where users can make a decision
+# None -> None
 def army_navy():
+ """Presents users with a decision on how much they'd like to spend on Army-Navy weekend.
+ Responses will subtract various amounts of money from users' bank accounts.
+ """
     screen.fill(GRAY)
 
     
 #nick
+#Procedure: leave_plans
+#Object represents a screen where users can make a decision
+# None -> None
 def leave_plans():
+ """Presents a user with a decision on how to get home for leave. Reponses will subtract
+ various amounts of money from a user's bank account.
+ """
     screen.fill(GRAY)
 
     
 #nick
+#Procedure: class_weekend
+#Object represnets a screen where users can make a decision
+# None -> None
 def class_weekend():
+ """Presents a user with a decision on how much they plan on spending during a class weekend. 
+ Responses will subtract various amounts of money from a user's bank account
+ """
     screen.fill(GRAY)
 
 
-
+#Procedure: update
+#Integer represents the amount of money a user has left after their consumption decisions
+#None -> None
 def update():
-    screen.fill(GRAY)
+ """This procedure will update a the second element of the cadet_life string to reflect the 
+ decisions made in the procedures above.
+ """
+ pass
 
-
-    
+#Procedure: on_key_down
+#list represents list that controls game flow. keys represent keys on the keyboard
+# Keystroke -> None
 def on_key_down(key):
-
+ """Recieves a keystroke on the spacebar. Advances the control loop by 1 to begin the
+ simulation.
+ """
     global bool_list
     
     if key == keys.SPACE and bool_list[1] == True:
         bool_list[1] = False
         bool_list[2] = True
         
-    
+#Procedure: on_mouse_down()
+#tuple of integers represents the (x,y) position of the mouse, string represnets
+# the button of the mouse that is pushed.
+#Touple of integers, str -> None
 def on_mouse_down(pos,button):
-    
+  """Recieves a current mouse position (x,y) and a mouse button pressed. Depending on the
+  screen displayed, this will perform various actions.
+  """
     #if button == mouse.LEFT and cadet.collidepoint(pos):
         #print('Open menu')
         #opens menu
@@ -313,7 +396,7 @@ def on_mouse_down(pos,button):
 #first free weekend,  major event 1(good or bad), remake selections, army-navy occurs, winter break plans, 
 #class weekend, major event #2, summer plans
 #Check in with the cadet in 5, 10, 20, and 30 years. Avatar changed to reflect age (character changes from cadet to LT to LTC to COL)
-
+"""
 '''
 Name: Nick Ashby and Blake Havern
 Project Skeleton: Cow Loan Projection
@@ -626,4 +709,4 @@ def on_mouse_down(pos,button):
 #first free weekend,  major event 1(good or bad), remake selections, army-navy occurs, winter break plans, 
 #class weekend, major event #2, summer plans
 #Check in with the cadet in 5, 10, 20, and 30 years. Avatar changed to reflect age (character changes from cadet to LT to LTC to COL)
-
+"""
