@@ -584,7 +584,7 @@ def on_mouse_down(pos,button):
           gender_female = Actor('button_selected')
           cadet_life[1] = 'female'
     if button == mouse.LEFT and gender_male.collidepoint(pos): 
-      if char_choice == True:
+        if char_choice == True:
           gender_male = Actor('button_selected')
           cadet_life[1] = 'male'
 
