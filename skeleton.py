@@ -32,6 +32,7 @@ cadet = Actor('cadet')
 cadet.pos = (100, 300)
 
 start = Actor('button_default')
+start.pos = (400,400)
 
 button1 = Actor('element_grey_rectangle_glossy')
 button1.pos = (400,20)
@@ -81,9 +82,9 @@ bool_list = [show_main,welcome,char_choice,life_choi,mentor_bool,f_weekend,major
 # This manages the flow of the game from screen to screen
 #None -> None
 def draw():
- """As the program loops through multiple times per second, this procedure determines what will be displayed.
- whatever element of the main control list == True when the program loops through this list corresponds
- to a function, which displays a specific screen"""
+    """As the program loops through multiple times per second, this procedure determines what will be displayed.
+    whatever element of the main control list == True when the program loops through this list corresponds
+    to a function, which displays a specific screen"""
     global bool_list
     
     if bool_list[0] == True:
@@ -120,7 +121,7 @@ def draw():
 #numbers represent position and fontsize, letters represent colors and text
 #None -> None
 def home_screen():
- """Displays the homescreen of the pygame (background, cadet picture, title"""
+    """Displays the homescreen of the pygame (background, cadet picture, title"""
     screen.fill(GRAY)
     cadet.draw()
     start.draw()
@@ -131,9 +132,9 @@ def home_screen():
 #Objects represent themselves
 #None -> None
 def welcome_screen():
-   """Displays the welcome screen with our welcome message (detailed instructions, 
-   creators' biographies, navigation in the game)
-   """     
+    """Displays the welcome screen with our welcome message (detailed instructions, 
+    creators' biographies, navigation in the game)
+    """     
     screen.clear()
     screen.fill(GRAY)
     welcome_msg.draw()
@@ -143,10 +144,10 @@ def welcome_screen():
 #Objects represent themselves
 #None -> None
 def character_choices():
- """Prompts user to select their gender and their name. In conjunction with
- on_mouse_down, modifies the user's list to display the appropriate avatar
- and player name
- """
+    """Prompts user to select their gender and their name. In conjunction with
+    on_mouse_down, modifies the user's list to display the appropriate avatar
+    and player name
+    """
     gender()
     cadet_name()
 
@@ -154,9 +155,9 @@ def character_choices():
 #Objects reprent a button for male and female
 #None -> None
 def gender():
- """Offers the user two buttons to select their gender. Modifies
- cadet_lift list to reflect their selections.
- """
+    """Offers the user two buttons to select their gender. Modifies
+    cadet_lift list to reflect their selections.
+    """
     global gender_male
     global gender_female
     
@@ -180,9 +181,9 @@ def gender():
 #Strings represnet a person's screen name
 #None -> None
 def cadet_name():
- """References an input function that requests a person enter
- their name.
- """
+    """References an input function that requests a person enter
+    their name.
+    """
     global name
     
     
@@ -192,10 +193,10 @@ def cadet_name():
 # car they'd like to buy.
 #None -> None
 def car_choice():
- """Prompts users to select one of two cars they'd like
- to buy. This decision is reflected in their bank account,
- which is displayed in the top right of the screen.
- """
+    """Prompts users to select one of two cars they'd like
+    to buy. This decision is reflected in their bank account,
+    which is displayed in the top right of the screen.
+    """
     global car_cheap
     global car_expensive
     
@@ -217,9 +218,9 @@ def car_choice():
 #Objects represent a screen where users will make purchases.
 #None -> None
 def life_choices():
- """Calls multiple functions and displays the options they present on screen.
- Displays a next button at the bottom of the screen to navigate as well.
- """
+    """Calls multiple functions and displays the options they present on screen.
+    Displays a next button at the bottom of the screen to navigate as well.
+    """
     screen.clear()
     screen.fill(GRAY)
     screen.draw.text('Lets make some purchases', center = (250,100),color = GOLD)
@@ -232,10 +233,10 @@ def life_choices():
 #Object represents a screen where users can make a decision
 # None -> None
 def select_mentors():
- """Presents a screen to users which allows them to choose whether or not they'd
- like a mentor through this process. The mentor will always instruct them to 
- follow the safest option.
- """
+    """Presents a screen to users which allows them to choose whether or not they'd
+    like a mentor through this process. The mentor will always instruct them to 
+    follow the safest option.
+    """
     screen.fill(GRAY)
     
 
@@ -244,9 +245,9 @@ def select_mentors():
 #Object represets a screen where users can make a decision
 # None -> None
 def free_weekend():
- """Presents a screen to users asking them how they would spend their free weekend.
- Choices will subtract various amounts of money from users' bank accounts.
- """
+    """Presents a screen to users asking them how they would spend their free weekend.
+    Choices will subtract various amounts of money from users' bank accounts.
+    """
     screen.fill(GRAY)
 
     
@@ -255,10 +256,10 @@ def free_weekend():
 #Object represents a screen where users can make a decision
 # None -> None
 def life_event():
- """Presents a user with a random life event (engagement, family member hospitalization, etc) and
- prompts them to respond. Responses will subtract various amounts of money from users' bank accounts.
- """
-   screen.fill(GRAY)
+    """Presents a user with a random life event (engagement, family member hospitalization, etc) and
+    prompts them to respond. Responses will subtract various amounts of money from users' bank accounts.
+    """
+    screen.fill(GRAY)
 
 
 #nick
@@ -266,9 +267,9 @@ def life_event():
 #Object represents a screen where users can make a decision
 # None -> None
 def army_navy():
- """Presents users with a decision on how much they'd like to spend on Army-Navy weekend.
- Responses will subtract various amounts of money from users' bank accounts.
- """
+    """Presents users with a decision on how much they'd like to spend on Army-Navy weekend.
+    Responses will subtract various amounts of money from users' bank accounts.
+    """
     screen.fill(GRAY)
 
     
@@ -277,9 +278,9 @@ def army_navy():
 #Object represents a screen where users can make a decision
 # None -> None
 def leave_plans():
- """Presents a user with a decision on how to get home for leave. Reponses will subtract
- various amounts of money from a user's bank account.
- """
+    """Presents a user with a decision on how to get home for leave. Reponses will subtract
+    various amounts of money from a user's bank account.
+    """
     screen.fill(GRAY)
 
     
@@ -288,9 +289,9 @@ def leave_plans():
 #Object represnets a screen where users can make a decision
 # None -> None
 def class_weekend():
- """Presents a user with a decision on how much they plan on spending during a class weekend. 
- Responses will subtract various amounts of money from a user's bank account
- """
+    """Presents a user with a decision on how much they plan on spending during a class weekend. 
+    Responses will subtract various amounts of money from a user's bank account
+    """
     screen.fill(GRAY)
 
 
@@ -298,18 +299,18 @@ def class_weekend():
 #Integer represents the amount of money a user has left after their consumption decisions
 #None -> None
 def update():
- """This procedure will update a the second element of the cadet_life string to reflect the 
- decisions made in the procedures above.
- """
- pass
+    """This procedure will update a the second element of the cadet_life string to reflect the 
+    decisions made in the procedures above.
+    """
+    pass
 
 #Procedure: on_key_down
 #list represents list that controls game flow. keys represent keys on the keyboard
 # Keystroke -> None
 def on_key_down(key):
- """Recieves a keystroke on the spacebar. Advances the control loop by 1 to begin the
- simulation.
- """
+    """Recieves a keystroke on the spacebar. Advances the control loop by 1 to begin the
+    simulation.
+    """
     global bool_list
     
     if key == keys.SPACE and bool_list[1] == True:
@@ -321,9 +322,9 @@ def on_key_down(key):
 # the button of the mouse that is pushed.
 #Touple of integers, str -> None
 def on_mouse_down(pos,button):
-  """Recieves a current mouse position (x,y) and a mouse button pressed. Depending on the
-  screen displayed, this will perform various actions.
-  """
+    """Recieves a current mouse position (x,y) and a mouse button pressed. Depending on the
+    screen displayed, this will perform various actions.
+    """
     #if button == mouse.LEFT and cadet.collidepoint(pos):
         #print('Open menu')
         #opens menu
