@@ -18,6 +18,7 @@ financial habits before they take out their Cow Loan. In this simulator, users w
  entertaining and informative way for cadets to maximize their cow loan. 
 Things we need: clever name, image of cadet, backgrounds, 
 '''
+import copy
 
 #Global Constants- background, colors, bank
 WIDTH = 500
@@ -40,6 +41,9 @@ button1.pos = (400,20)
 welcome_msg = Actor('welcome')
 welcome_msg.pos = (250,250)
 
+take_quit_msg = Actor('take_quit')
+welcome_msg.pos = (250,250)
+
 gender_female = Actor('button_default') 
 gender_male = Actor('button_default')
 
@@ -51,20 +55,26 @@ car.pos = (250, 100)
 car_expensive = Actor('element_grey_rectangle_glossy')
 car_cheap = Actor('element_grey_rectangle_glossy')
 
+text_rect = Rect((300,240), (100,30))
+text_active = False
+
+yes_take = Actor('button_default') 
+no_take = Actor('button_default') 
 #name = input("What is your name?")
 #Cadet are stored as a list, [name, alive(bool),
 # money(nested list with where it is?), frugal score, karma]
 life = True
 name = ''
 gender = ''
-money = 36000
+money = 0
 f_score = 0
 karma = 0
 
 cadet_life = [name, gender, money, f_score, karma]
 
-#global screen variables
 
+#global screen variables
+quit_msg = False
 
 show_main = True
 welcome = False
@@ -86,15 +96,20 @@ def draw():
     whatever element of the main control list == True when the program loops through this list corresponds
     to a function, which displays a specific screen"""
     global bool_list
+    global quit_msg
     
     if bool_list[0] == True:
+        quit_msg = False
         home_screen()
         
     if bool_list[1] == True:
         welcome_screen()
     
     if bool_list[2] == True:
-        character_choices()
+        if quit_msg == False:
+            character_choices()
+        else:
+            take_quit()
     
     if bool_list[3] == True:
         life_choices()
@@ -150,6 +165,7 @@ def character_choices():
     """
     gender()
     cadet_name()
+    take_cow_loan()
 
 #Procedure: gender
 #Objects reprent a button for male and female
@@ -185,6 +201,37 @@ def cadet_name():
     their name.
     """
     global name
+    screen.draw.filled_rect(text_rect, RED)
+    screen.draw.text('Enter your name', center = (350,263), color = BLACK, fontsize = 15)
+
+#Procedure: take_cow_loan
+#yes or no question
+#None -> None 
+def take_cow_loan():
+    
+    global yes_take
+    global no_take
+    
+    
+    yes_take.pos = (150,370)
+    yes_take.draw()
+    screen.draw.text('Yes', center = (150,370), color = BLACK)
+    
+    no_take.pos = (350,370)
+    no_take.draw()
+    screen.draw.text('No', center = (350,370), color = BLACK)
+    
+    screen.draw.text('Would you like to take the Cow Cash?', center = (250,330), fontsize = 25, color = BLACK)
+
+def take_quit():
+    bool_list[2] = False
+    bool_list[0] = True
+    #quit_msg = True
+    #screen.clear()
+    #screen.fill(GRAY)
+    #take_quit_msg.draw()
+    #cadet_life[3] = 10
+    #next_button.draw()
     
     
 #nick
@@ -311,12 +358,17 @@ def on_key_down(key):
     """Recieves a keystroke on the spacebar. Advances the control loop by 1 to begin the
     simulation.
     """
+     
     global bool_list
+    #if key == keys.SPACE and quit_msg == True:
+        #bool_list[2] = False
+        #bool_list[0] = True
     
     if key == keys.SPACE and bool_list[1] == True:
         bool_list[1] = False
         bool_list[2] = True
-        
+    
+    
 #Procedure: on_mouse_down()
 #tuple of integers represents the (x,y) position of the mouse, string represnets
 # the button of the mouse that is pushed.
@@ -350,26 +402,44 @@ def on_mouse_down(pos,button):
         bool_list[1] = True
         print('Start the game')
         
-    global gender_female    
+    global gender_female  
+    global gender_male
     if button == mouse.LEFT and gender_female.collidepoint(pos):
+        gender_male = Actor('button_default')
         gender_female = Actor('button_selected')
         cadet_life[1] = 'female'
         
-    global gender_male    
     if button == mouse.LEFT and gender_male.collidepoint(pos): 
+        gender_female = Actor('button_default')
         gender_male = Actor('button_selected')
         cadet_life[1] = 'male'
     
     global car_cheap
     if button == mouse.LEFT and car_cheap.collidepoint(pos):
-      car_cheap = Actor('element_blue_rectangle_glossy')
-      cadet_life[2] = cadet_life[2] - 10000
+        car_cheap = Actor('element_blue_rectangle_glossy')
+        cadet_life[2] = cadet_life[2] - 10000
     
     global car_expensive
     if button == mouse.LEFT and car_expensive.collidepoint(pos):
       car_expensive = Actor('element_blue_rectangle_glossy')
       cadet_life[2] = cadet_life[2] - 20000
-      
+    
+    global yes_take
+    global no_take
+    if button == mouse.LEFT and yes_take.collidepoint(pos):
+        no_take = Actor('button_default')
+        yes_take = Actor('button_selected')
+        cadet_life[2] = 36000
+        take_message()
+    
+    global quit_msg
+    if button == mouse.LEFT and no_take.collidepoint(pos):
+        yes_take = Actor('button_default')
+        #no_take = Actor('button_selected')
+        quit_msg = True
+        
+    if button == mouse.LEFT and text_rect.collidepoint(pos):
+        text_box()
     #create square with texts
     
     #allow mouse to click square
@@ -378,8 +448,11 @@ def on_mouse_down(pos,button):
     
     #
 
+def text_box():
+    pass
 
-
+def take_message():
+    pass
 #Variables:
      
 #Cadet-> stored as a list, [name, alive(bool), money(nested list with where it is?), frugal score, karma]
