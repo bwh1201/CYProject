@@ -20,8 +20,6 @@ Things we need: clever name, image of cadet, backgrounds,
 '''
 import copy
 
-
-
 #Global Constants- background, colors, bank
 WIDTH = 500
 HEIGHT = 500
