@@ -28,7 +28,8 @@ GRAY = (138,138,138)
 RED = (200,0,0)
 GOLD = (255,215,0)
 BLACK = (0,0,0)
-BLUE = (240 ,248, 255)
+BLUE = (0 ,0, 255)
+CHARTREUSE = (127,255,0)
 
 #Global Variables - Characters, boxes, pictures, etc.
 cadet = Actor('cadet')
@@ -57,9 +58,9 @@ car.pos = (250, 100)
 car_expensive = Actor('element_grey_rectangle_glossy')
 car_cheap = Actor('element_grey_rectangle_glossy')
 
-text_rect = Rect((300,240), (100,30))
-text_active = False
-text = 'Enter your name:'
+text_rect = Rect((180,242), (140,30))
+text_active = 0
+text = 'Click to enter your name:'
 new_text = ''
 
 yes_take = Actor('button_default') 
@@ -88,9 +89,9 @@ cadet_life = [name, gender, money, f_score, karma]
 #global screen variables
 quit_msg = False
 
-show_main = True
+show_main = False
 welcome = False
-char_choice = False
+char_choice = True
 life_choi = False
 mentor_bool = False
 f_weekend = False
@@ -177,8 +178,6 @@ def character_choices():
     """
     
     gender()
-    #iBox = InputBoxZero(350,263,20,30, 'Enter your name')
-    #iBox.drawInput(screen)
     cadet_name()
     take_cow_loan()
 
@@ -217,12 +216,14 @@ def cadet_name():
     """
     global text_active
     global text
-    if text_active:
+    if text_active == 1:
         rect_act = screen.draw.filled_rect(text_rect, BLUE)
+    elif text_active == 2:
+        rect_act = screen.draw.filled_rect(text_rect, CHARTREUSE)
     else:
         rect_in = screen.draw.filled_rect(text_rect, RED)
         
-    screen.draw.text(text, center = (350,263), color = BLACK, fontsize = 15)
+    screen.draw.text(text, center = (250,260), color = BLACK, fontsize = 15)
 
 #Procedure: take_cow_loan
 #yes or no question
@@ -410,18 +411,20 @@ def on_key_down(key):
     global cadet_life
     global new_text
     
-    if text_active:
+    if text_active == 1:
         
         if key == keys.RETURN:
             cadet_life[0] = text
+            text_active = 2
+            
         elif key == keys.BACKSPACE:
             new_text -= new_text[:-1]
         else:
             letter = str(key)
             new_text += letter[-1]
-            #recreate text
-            #self.txt_surface = FONT.render(self.text, True, )
-        text = new_text + ''    
+            
+        text = new_text + ''  
+        
     #if key == keys.SPACE and quit_msg == True:
         #bool_list[2] = False
         #bool_list[0] = True
