@@ -83,7 +83,7 @@ cadet_life = [name, gender, money, f_score, karma]
 #global screen variables
 quit_msg = False
 
-show_main = False
+show_main = True
 welcome = False
 char_choice = False
 life_choi = False
