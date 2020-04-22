@@ -19,6 +19,7 @@ financial habits before they take out their Cow Loan. In this simulator, users w
 Things we need: clever name, image of cadet, backgrounds, 
 '''
 import copy
+from text_box_class import *
 
 #Global Constants- background, colors, bank
 WIDTH = 500
@@ -27,6 +28,7 @@ GRAY = (138,138,138)
 RED = (200,0,0)
 GOLD = (255,215,0)
 BLACK = (0,0,0)
+BLUE = (240 ,248, 255)
 
 #Global Variables - Characters, boxes, pictures, etc.
 cadet = Actor('cadet')
@@ -57,6 +59,8 @@ car_cheap = Actor('element_grey_rectangle_glossy')
 
 text_rect = Rect((300,240), (100,30))
 text_active = False
+text = 'Enter your name:'
+new_text = ''
 
 yes_take = Actor('button_default') 
 no_take = Actor('button_default') 
@@ -66,6 +70,7 @@ bio_x = Actor('bio_x')
 bio_cadet_x = False
 mentor_good = Actor('ltccody')
 
+iBox = InputBox(350,263,20,30, 'Enter your name')
 
 #name = input("What is your name?")
 #Cadet are stored as a list, [name, alive(bool),
@@ -170,7 +175,10 @@ def character_choices():
     on_mouse_down, modifies the user's list to display the appropriate avatar
     and player name
     """
+    
     gender()
+    #iBox = InputBoxZero(350,263,20,30, 'Enter your name')
+    #iBox.drawInput(screen)
     cadet_name()
     take_cow_loan()
 
@@ -207,9 +215,14 @@ def cadet_name():
     """References an input function that requests a person enter
     their name.
     """
-    global name
-    screen.draw.filled_rect(text_rect, RED)
-    screen.draw.text('Enter your name', center = (350,263), color = BLACK, fontsize = 15)
+    global text_active
+    global text
+    if text_active:
+        rect_act = screen.draw.filled_rect(text_rect, BLUE)
+    else:
+        rect_in = screen.draw.filled_rect(text_rect, RED)
+        
+    screen.draw.text(text, center = (350,263), color = BLACK, fontsize = 15)
 
 #Procedure: take_cow_loan
 #yes or no question
@@ -392,6 +405,23 @@ def on_key_down(key):
     """
      
     global bool_list
+    global text_active
+    global text
+    global cadet_life
+    global new_text
+    
+    if text_active:
+        
+        if key == keys.RETURN:
+            cadet_life[0] = text
+        elif key == keys.BACKSPACE:
+            new_text -= new_text[:-1]
+        else:
+            letter = str(key)
+            new_text += letter[-1]
+            #recreate text
+            #self.txt_surface = FONT.render(self.text, True, )
+        text = new_text + ''    
     #if key == keys.SPACE and quit_msg == True:
         #bool_list[2] = False
         #bool_list[0] = True
@@ -418,6 +448,7 @@ def on_mouse_down(pos,button):
     if button == mouse.LEFT and next_button.collidepoint(pos):
         x = True
         i = 0
+        print(cadet_life)
         while x is True:
             if bool_list[i] == True:
                 bool_list[i] = False
@@ -480,8 +511,14 @@ def on_mouse_down(pos,button):
         #no_take = Actor('button_selected')
         quit_msg = True
         
+    global text_active    
     if button == mouse.LEFT and text_rect.collidepoint(pos):
-        text_box()
+        text_active = True
+        
+        
+        
+        
+    
     #create square with texts
     
     #allow mouse to click square
