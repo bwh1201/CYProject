@@ -1,3 +1,5 @@
+import random
+
 #Contsants (sorted alphabetically)
 BLACK = (0,0,0)
 GOLD = (255,215,0)
@@ -22,6 +24,8 @@ car_expensive = Actor('car_expensive')
 
 car_expensive_text = Actor('button_default')
 
+cloud = Actor('cloud')
+
 gender_female = Actor('button_default')
 
 gender_male = Actor('button_default')
@@ -44,6 +48,10 @@ text_rect = Rect((300,240), (100,30))
 
 take_quit_msg = Actor('take_quit')
 
+vegas = Actor('chip_1')
+
+vermont = Actor('house')
+
 welcome_msg = Actor('welcome')
 
 yes_take = Actor('button_default') 
@@ -54,7 +62,7 @@ cadet_life = {}
 cadet_life['life'] = True
 cadet_life['name'] = ''
 cadet_life['gender'] = ''
-cadet_life['money'] = 0
+cadet_life['money'] = 1
 cadet_life['f_score'] = 0
 cadet_life['karma'] = 0
 
@@ -75,6 +83,8 @@ control['quit_menu'] = False
 
 def draw():
     print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    print(cadet_life)
+
     if control['show_main'] == True:
         home_screen()
 
@@ -95,6 +105,18 @@ def draw():
     
     if control['quit_menu'] == True:
         take_quit()
+    
+    if control['f_weekend'] == True:
+        free_weekend()
+    
+    if control['major_event'] == True:
+        life_event()
+    
+    if control['army_navy'] == True:
+        army_navy()
+    
+    if cadet_life['money'] <= 0:
+        death_screen()
 
 
 def home_screen():
@@ -198,6 +220,60 @@ def car_choice():
     car_expensive.pos = (400, 250)
     car_expensive.draw()
     screen.draw.text('Expensive', center= (400,150), color = BLACK)
+
+#blake
+#Procedure: free_weekend
+#Object represets a screen where users can make a decision
+# None -> None
+def free_weekend():
+    """Presents a screen to users asking them how they would spend their free weekend.
+    Choices will subtract various amounts of money from users' bank accounts.
+    """
+    screen.fill(GRAY)
+    screen.draw.text('Free Weekend!!!', center = (250, 50), color = GOLD, fontsize = 64)
+    screen.draw.text("It's Labor Day Weekend. Where do you want to go?", center = (250, 100),color = BLACK, fontsize = 26)
+    
+    vegas.center = (350,250)
+    vegas.draw()
+    screen.draw.text("Vegas",center = (350, 350))
+    
+    vermont.center = (150, 250)
+    vermont.draw()
+    screen.draw.text('Vermont', center = (150, 350))
+
+#blake
+#Procedure: life_event
+#Object represents a screen where users can make a decision
+# None -> None
+def life_event():
+    """Presents a user with a random life event (engagement, family member hospitalization, etc) and
+    prompts them to respond. Responses will subtract various amounts of money from users' bank accounts.
+    """
+    screen.fill(GRAY)
+    screen.draw.text('MAJOR LIFE EVENT!', center = (250,50), color = GOLD, fontsize = 64)
+    #num = random.randint(0,100)
+    num = random.randint(0,100)
+    num2 = random.randint(1,cadet_life['money'])
+    if num % 2 == 0:
+        screen.draw.text("YOU'RE GETTING MARRIED!!!", center = (250,100), fontsize = 26)
+        screen.draw.text("This is going to cost you ${}".format(num2), center = (250, 200), fontsize = 26)
+        cadet_life['money'] -= num2
+        screen.draw.text('Click anywhere to continue', center = (250, 400), fontsize = 20)
+    else:
+        screen.draw.text("ALCOHOL BOARD :(", center = (250,100), fontsize = 26)
+        screen.draw.text("On the bright side, at least you're not spending any money", center = (250,200), fontsize = 20)
+        screen.draw.text('Click anywhere to continue', center = (250, 400), fontsize = 20)
+
+
+#nick
+#Procedure: army_navy
+#Object represents a screen where users can make a decision
+# None -> None
+def army_navy():
+    """Presents users with a decision on how much they'd like to spend on Army-Navy weekend.
+    Responses will subtract various amounts of money from users' bank accounts.
+    """
+    screen.fill(GRAY)
     
 def take_quit():
     cadet_life['life'] = False
@@ -206,6 +282,10 @@ def take_quit():
     take_quit_msg.center = (WIDTH/2, HEIGHT/2)
     take_quit_msg.draw()
 
+def death_screen():
+    screen.clear()
+    screen.fill(RED)
+    
 def on_mouse_down(pos, button):
     global cadet_life
     global control
@@ -230,6 +310,7 @@ def on_mouse_down(pos, button):
         if button == mouse.LEFT and gender_female.collidepoint(pos):
             cadet_life['gender'] = 'female'
             control['char_choice'] = False
+            control['mentor_choice'] = True
             draw()
             
         if button == mouse.LEFT and gender_male.collidepoint(pos): 
@@ -264,7 +345,7 @@ def on_mouse_down(pos, button):
         if button == mouse.LEFT and no_take.collidepoint(pos):
             cadet_life['money'] = 10
             control['loan_choice'] = False
-            control['life_choice'] = True
+            control['quit_menu'] = True
             draw()
             
     if control['life_choice'] == True:
@@ -272,14 +353,37 @@ def on_mouse_down(pos, button):
             cadet_life['money'] = cadet_life['money'] - 10000
             control['life_choice'] = False
             control['f_weekend'] = True
+            draw()
             
         if button == mouse.LEFT and car_expensive_text.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 20000
             control['life_choice'] = False
             control['f_weekend'] = True
             print(cadet_life)
+            draw()
+    
+    if control['f_weekend'] == True:
+        if button == mouse.LEFT and vermont.collidepoint(pos):
+            cadet_life['money'] = cadet_life['money'] - 500
+            control['f_weekend'] = False
+            control['major_event'] = True
+            print(cadet_life)
+            draw()
             
-
+        if button == mouse.LEFT and vegas.collidepoint(pos):
+            cadet_life['money'] = cadet_life['money'] - 2000
+            control['f_weekend'] = False
+            control['major_event'] = True
+            print(cadet_life)
+            draw()
+    '''
+    if control['major_event'] == True:
+        if button == mouse.LEFT:
+            control['major_event'] = False
+            control['army_navy'] = True
+            draw()
+    '''
+            
 def on_key_down(key):
     """Recieves a keystroke on the spacebar. Advances the control loop by 1 to begin the
     simulation.
@@ -288,3 +392,9 @@ def on_key_down(key):
         if key == keys.SPACE:
             control['welcome'] = False
             control['char_choice'] = True
+    
+    if control['quit_menu'] == True:
+        if key == keys.SPACE:
+            control['quit_menu'] = False
+            control['life_choice'] = True
+    
