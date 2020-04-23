@@ -38,6 +38,8 @@ mentor_x = Actor('cadet_x')
 
 mentor_x_bio = Actor('cadet_x_hov')
 
+money_talk = Actor('money_split_desc')
+
 next_button = Actor('element_red_rectangle')
 
 no_take = Actor('button_default') 
@@ -76,13 +78,11 @@ control['loan_choice'] = False
 control['life_choice'] = False
 control['f_weekend'] = False
 control['major_event'] = False
-control['army_navy'] = False
-control['leave_plan'] = False
-control['class_week'] = False
+control['money_split'] = False
+control['year_ten'] = False
 control['quit_menu'] = False
 
 def draw():
-    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
     print(cadet_life)
 
     if control['show_main'] == True:
@@ -112,9 +112,12 @@ def draw():
     if control['major_event'] == True:
         life_event()
     
-    if control['army_navy'] == True:
-        army_navy()
+    if control['money_split'] == True:
+        money_split()
     
+    if control['year_ten'] == True:
+        year_ten()
+        
     if cadet_life['money'] <= 0:
         death_screen()
 
@@ -251,30 +254,66 @@ def life_event():
     """
     screen.fill(GRAY)
     screen.draw.text('MAJOR LIFE EVENT!', center = (250,50), color = GOLD, fontsize = 64)
-    #num = random.randint(0,100)
     num = random.randint(0,100)
     num2 = random.randint(1,cadet_life['money'])
     if num % 2 == 0:
         screen.draw.text("YOU'RE GETTING MARRIED!!!", center = (250,100), fontsize = 26)
         screen.draw.text("This is going to cost you ${}".format(num2), center = (250, 200), fontsize = 26)
         cadet_life['money'] -= num2
-        screen.draw.text('Click anywhere to continue', center = (250, 400), fontsize = 20)
+        screen.draw.text('Press space to continue', center = (250, 400), fontsize = 20)
     else:
         screen.draw.text("ALCOHOL BOARD :(", center = (250,100), fontsize = 26)
         screen.draw.text("On the bright side, at least you're not spending any money", center = (250,200), fontsize = 20)
-        screen.draw.text('Click anywhere to continue', center = (250, 400), fontsize = 20)
+        screen.draw.text('Press space to continue', center = (250, 400), fontsize = 20)
 
 
-#nick
-#Procedure: army_navy
-#Object represents a screen where users can make a decision
-# None -> None
-def army_navy():
-    """Presents users with a decision on how much they'd like to spend on Army-Navy weekend.
-    Responses will subtract various amounts of money from users' bank accounts.
-    """
+def money_split():
     screen.fill(GRAY)
+    money_talk.draw()
+    screen.draw.text('What percent of your ${} \n would you like to put in a brokerage account?'.format(cadet_life['money']), center = (250,250), fontsize = 30, color = GOLD)
+    screen.draw.text('(1 = 10%, 2 = 20%, 3 = 30%...)', center = (250, 300))
+    screen.draw.text('click anywhere to continue', center = (250,400), color = BLACK)
+
+def interest(P,r,n,t):
+    amount = P*(1+(r/n))**(n*t)
+    return amount
+
+def get_stock_data(InFile):
+    new = []
+    InFile = open(InFile, 'r')
+    for line in InFile:
+        line = line.strip()
+        new.append(float(line))
+    InFile.close()
+    return new
+
+def get_random(data):
+    random.shuffle(data)
+    return data
+
+def get_10_year(data):
+    data = data[:9]
+    multiplier = (max(data)-min(data))/len(data)
+    return multiplier
+
+def year_ten():
+    screen.clear()
+    screen.fill(GRAY)
+    screen.draw.text("10 Years Later", center = (250, 50), color = GOLD, fontsize = 64)
     
+    cadet_life['savings_10'] = interest(cadet_life['savings'], 0.05, 1, 10)
+    
+    dat = get_stock_data('sandp.txt')
+    get_random(dat)
+    money_multiplier = get_10_year(dat)
+    cadet_life['brokerage_10'] = cadet_life['brokerage']*money_multiplier
+    
+    screen.draw.text('Savings = ${:.2f}'.format(cadet_life['savings_10']),center = (250, 100),fontsize = 40)
+    screen.draw.text('Your savings account has gained \n ${:.2f} \n in 10 years'.format(cadet_life['savings_10']-cadet_life['savings']),center = (250,150), fontsize = 25, color = BLACK)
+    screen.draw.text('Brokerage = ${:.2f}'.format(cadet_life['brokerage_10']), center = (250, 300), fontsize = 40)
+    screen.draw.text('Your brokerage account has gained \n ${:.2f} \n in 10 years'.format(cadet_life['brokerage_10']-cadet_life['brokerage']),center = (250,350), fontsize = 25, color = BLACK)
+
+
 def take_quit():
     cadet_life['life'] = False
     screen.clear()
@@ -376,13 +415,13 @@ def on_mouse_down(pos, button):
             control['major_event'] = True
             print(cadet_life)
             draw()
-    '''
-    if control['major_event'] == True:
+    
+    if control['money_split'] == True:
         if button == mouse.LEFT:
-            control['major_event'] = False
-            control['army_navy'] = True
-            draw()
-    '''
+            control['money_split'] = False
+            control['year_ten'] = True
+
+
             
 def on_key_down(key):
     """Recieves a keystroke on the spacebar. Advances the control loop by 1 to begin the
@@ -398,3 +437,61 @@ def on_key_down(key):
             control['quit_menu'] = False
             control['life_choice'] = True
     
+    if control['major_event'] == True:
+        if key == keys.SPACE:
+            control['major_event'] = False
+            control['money_split'] = True
+            draw()
+    
+    if control['money_split'] == True:
+        if key == keys.K_1:
+            cadet_life['brokerage'] = cadet_life['money']*0.1
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        elif key == keys.K_2:
+            cadet_life['brokerage'] = cadet_life['money']*0.2
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        elif key == keys.K_3:
+            cadet_life['brokerage'] = cadet_life['money']*0.3
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        elif key == keys.K_4:
+            cadet_life['brokerage'] = cadet_life['money']*0.4
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        elif key == keys.K_5:
+            cadet_life['brokerage'] = cadet_life['money']*0.5
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        elif key == keys.K_6:
+            cadet_life['brokerage'] = cadet_life['money']*0.6
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        elif key == keys.K_7:
+            cadet_life['brokerage'] = cadet_life['money']*0.7
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        elif key == keys.K_8:
+            cadet_life['brokerage'] = cadet_life['money']*0.8
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        elif key == keys.K_9:
+            cadet_life['brokerage'] = cadet_life['money']*0.9
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        elif key == keys.K_0:
+            cadet_life['brokerage'] = cadet_life['money']*0.0
+            cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
+            cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
+
+        draw()
