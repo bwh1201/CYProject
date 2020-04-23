@@ -29,6 +29,7 @@ GOLD = (255,215,0)
 BLACK = (0,0,0)
 BLUE = (0 ,0, 255)
 CHARTREUSE = (127,255,0)
+WHITE = (255,255,255)
 
 #Global Variables - Characters, boxes, pictures, etc.
 cadet = Actor('cadet')
@@ -72,11 +73,14 @@ mentor_good_yes = Actor('element_red_rectangle')
 ment_select = False
 
 #Weekend events
-nyc = Actor('nyc')
-ski = Actor('ski')
-barracks = Actor('barracks')
-opp = Actor('palisades')
-
+nyc = Actor('nyc', (125,375))
+ski = Actor('ski', (375,375))
+barracks = Actor('barracks', (125,125))
+opp = Actor('palisades',(375,125))
+nyc_but = Actor('letter_b', (145, 203))
+barracks_but = Actor('letter_c', (350, 203))
+ski_but = Actor('letter_d', (145, 350))
+opp_but = Actor('letter_e', (350,350))
 
 #name = input("What is your name?")
 #Cadet are stored as a list, [name, alive(bool),
@@ -99,8 +103,8 @@ welcome = False
 char_choice = False
 life_choi = False
 mentor_bool = False
-f_weekend = False
-major_event = True
+f_weekend = True
+major_event = False
 arm_nav = False
 leave_plan = False
 class_week = False
@@ -348,10 +352,31 @@ def free_weekend():
     """Presents a screen to users asking them how they would spend their free weekend.
     Choices will subtract various amounts of money from users' bank accounts.
     """
+    global nyc
+    global barracks
+    global ski
+    global opp
+    global nyc_but
+    global barracks_but
+    global ski_but
+    global opp_but
     screen.clear()
-    screen.fill(GRAY)
-    screen.draw.text('Congrats! You have made it to your first free weekend!', center = (250,250), fontsize = 40, color = BLACK)
+    screen.fill(CHARTREUSE)
     
+    
+    barracks_but.draw()
+    nyc_but.draw()
+    ski_but.draw()
+    opp_but.draw()
+    
+    screen.draw.text('Congrats! \n You have made it to your \n first free weekend!', center = (250,45), fontsize = 40, color = BLACK)
+    screen.draw.text('Select the picture for your plans this weekend', center = (250,110), fontsize = 20, color = BLACK)
+    weekend = Actor('free_week',(250,280))
+    weekend.draw()
+    
+    
+    
+   
     
     
 #blake
@@ -363,6 +388,7 @@ def life_event():
     prompts them to respond. Responses will subtract various amounts of money from users' bank accounts.
     """
     screen.fill(GRAY)
+    screen.draw.text('life_event', center = (250,250))
 
 
 #nick
@@ -374,7 +400,7 @@ def army_navy():
     Responses will subtract various amounts of money from users' bank accounts.
     """
     screen.fill(GRAY)
-
+    screen.draw.text('army nav', center = (250,250))
     
 #nick
 #Procedure: leave_plans
@@ -385,6 +411,7 @@ def leave_plans():
     various amounts of money from a user's bank account.
     """
     screen.fill(GRAY)
+    screen.draw.text('leave_plans', center = (250,250))
 
     
 #nick
@@ -396,6 +423,7 @@ def class_weekend():
     Responses will subtract various amounts of money from a user's bank account
     """
     screen.fill(GRAY)
+    screen.draw.text('class weekend', center = (250,250))
 
 
 #Procedure: update
@@ -533,9 +561,17 @@ def on_mouse_down(pos,button):
             screen.draw.text('Error: You already selected a mentor', center =(250, 500), color = BLACK)
     
         
+    if button == mouse.LEFT and opp_but.collidepoint(pos):
+        pass
     
+    if button == mouse.LEFT and nyc_but.collidepoint(pos):
+        pass
         
-    
+    if button == mouse.LEFT and barracks_but.collidepoint(pos):
+        pass
+        
+    if button == mouse.LEFT and ski_but.collidepoint(pos):
+        pass
     
     global quit_msg
     if button == mouse.LEFT and no_take.collidepoint(pos):
