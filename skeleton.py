@@ -88,11 +88,11 @@ cadet_life = [name, gender, money, possesions, karma]
 #global screen variables
 quit_msg = False
 
-show_main = False
+show_main = True
 welcome = False
 char_choice = False
 life_choi = False
-mentor_bool = True
+mentor_bool = False
 f_weekend = False
 major_event = False
 arm_nav = False
@@ -343,6 +343,7 @@ def free_weekend():
     Choices will subtract various amounts of money from users' bank accounts.
     """
     screen.fill(GRAY)
+    
 
     
 #blake
