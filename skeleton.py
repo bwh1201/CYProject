@@ -66,12 +66,11 @@ new_text = ''
 yes_take = Actor('button_default') 
 no_take = Actor('button_default') 
 
-mentor_x = Actor('cadet_x')
-bio_x = Actor('bio_x')
-bio_cadet_x = False
-mentor_good = Actor('ltccody')
-
-iBox = InputBox(350,263,20,30, 'Enter your name')
+mentor_x = Actor('cadet_x_hov')
+mentor_x_yes = Actor('element_red_rectangle')
+mentor_good = Actor('mento_good_bio')
+mentor_good_yes = Actor('element_red_rectangle')
+ment_select = False
 
 #name = input("What is your name?")
 #Cadet are stored as a list, [name, alive(bool),
@@ -80,10 +79,10 @@ life = True
 name = ''
 gender = ''
 money = 0
-f_score = 0
+possesions = []
 karma = 0
 
-cadet_life = [name, gender, money, f_score, karma]
+cadet_life = [name, gender, money, possesions, karma]
 
 
 #global screen variables
@@ -91,9 +90,9 @@ quit_msg = False
 
 show_main = False
 welcome = False
-char_choice = True
+char_choice = False
 life_choi = False
-mentor_bool = False
+mentor_bool = True
 f_weekend = False
 major_event = False
 arm_nav = False
@@ -307,19 +306,32 @@ def select_mentors():
     """
     global mentor_x
     global mentor_good
+    global mentor_x_yes
+    global mentor_good_yes
     
+    
+    
+    
+    
+    screen.clear()
     screen.fill(GRAY)
     screen.draw.text('Select your mentor:', center = (150,50), fontsize = 40, color = BLACK)
+   
+    mentor_good_yes.pos = (120,100)
+    mentor_x_yes.pos = (360,100)
+    mentor_x.pos = (360,265)
+    mentor_good.pos = (120,265)
     
-    mentor_x.pos = (120,300)
-    screen.draw.text('Cadet X (questionable)', center = (120,140))
-    mentor_good.pos = (360,300)
-    screen.draw.text('LTC Cody (good)', center = (360,140))
+    mentor_good_yes.draw()
+    mentor_x_yes.draw()
+    
+    screen.draw.text('Cadet X', center = (360,100), fontsize = 15, color = BLACK)
+    screen.draw.text('LTC Cody', center = (120,100), fontsize = 15, color = BLACK)
+    
     mentor_good.draw()
     mentor_x.draw()
     
-    
-    
+    next_button.draw()
     
     
 #blake
@@ -391,11 +403,7 @@ def update():
 #represents position of mouse for gameflow
 #mouse movement -> None
 def on_mouse_move(pos): 
-
-    global mentor_x
-    if mentor_x.collidepoint(pos):
-        mentor_x = Actor('cadet_x_hov')
-    
+    pass
       
 #Procedure: on_key_down
 #list represents list that controls game flow. keys represent keys on the keyboard
@@ -497,14 +505,26 @@ def on_mouse_down(pos,button):
         yes_take = Actor('button_selected')
         cadet_life[2] = 36000
         take_message()
+    
+    global mentor_good_yes
+    global mentor_x_yes
+    global ment_select
+    if button == mouse.LEFT and mentor_good_yes.collidepoint(pos):
+        cadet_life[4] = 5
+        mentor_good_yes = Actor('element_green_rectangle')
+        mentor_x_yes = Actor('element_red_rectangle')
         
-    global mentor_x
-    global mentor_good
-    if button == mouse.LEFT and mentor_x.collidepoint(pos):
-        mentor_x = Actor('cadet_x_hov')
+    
+    if button == mouse.LEFT and mentor_x_yes.collidepoint(pos):
+        if ment_select == False:
+                cadet_life[4] = 1
+                mentor_x_yes = Actor('element_green_rectangle')
+                mentor_good_yes = Actor('element_red_rectangle')
+        else:
+            screen.draw.text('Error: You already selected a mentor', center =(250, 500), color = BLACK)
+    
         
-    if button == mouse.LEFT and mentor_good.collidepoint(pos):
-        mentor_good = Actor('mento_good_bio')
+    
         
     
     
