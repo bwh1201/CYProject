@@ -19,7 +19,6 @@ financial habits before they take out their Cow Loan. In this simulator, users w
 Things we need: clever name, image of cadet, backgrounds, 
 '''
 import copy
-from text_box_class import *
 
 #Global Constants- background, colors, bank
 WIDTH = 500
@@ -72,6 +71,13 @@ mentor_good = Actor('mento_good_bio')
 mentor_good_yes = Actor('element_red_rectangle')
 ment_select = False
 
+#Weekend events
+nyc = Actor('nyc')
+ski = Actor('ski')
+barracks = Actor('barracks')
+opp = Actor('palisades')
+
+
 #name = input("What is your name?")
 #Cadet are stored as a list, [name, alive(bool),
 # money(nested list with where it is?), frugal score, karma]
@@ -88,13 +94,13 @@ cadet_life = [name, gender, money, possesions, karma]
 #global screen variables
 quit_msg = False
 
-show_main = True
+show_main = False
 welcome = False
 char_choice = False
 life_choi = False
 mentor_bool = False
 f_weekend = False
-major_event = False
+major_event = True
 arm_nav = False
 leave_plan = False
 class_week = False
@@ -342,9 +348,11 @@ def free_weekend():
     """Presents a screen to users asking them how they would spend their free weekend.
     Choices will subtract various amounts of money from users' bank accounts.
     """
+    screen.clear()
     screen.fill(GRAY)
+    screen.draw.text('Congrats! You have made it to your first free weekend!', center = (250,250), fontsize = 40, color = BLACK)
     
-
+    
     
 #blake
 #Procedure: life_event
