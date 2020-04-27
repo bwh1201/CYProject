@@ -330,7 +330,7 @@ def life_choices():
 
     screen.draw.text('Lets make some purchases', center = (250,100),color = GOLD)
 
-    car_choice()
+    #car_choice()
 
     screen.draw.text(str(cadet_life[2]), center = (400,30), color = GOLD)
 

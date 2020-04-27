@@ -2,6 +2,8 @@ import random
 
 #Contsants (sorted alphabetically)
 BLACK = (0,0,0)
+BLUE = (0 ,0, 255)
+CHARTREUSE = (127,255,0)
 GOLD = (255,215,0)
 GRAY = (138,138,138)
 HEIGHT = 500
@@ -46,7 +48,10 @@ no_take = Actor('button_default')
 
 start = Actor('button_default')
 
-text_rect = Rect((300,240), (100,30))
+text_rect = Rect((180,245), (140,30))
+text_active = 0
+text = 'Click to enter your name'
+new_text = ''
 
 take_quit_msg = Actor('take_quit')
 
@@ -92,7 +97,7 @@ def draw():
         welcome_screen()
 
     if control['char_choice'] == True:
-        gender()
+        char_choices()
 
     if control['mentor_choice'] == True:
         select_mentors()
@@ -138,6 +143,28 @@ def welcome_screen():
     welcome_msg.center = (WIDTH/2, HEIGHT/2)
     welcome_msg.draw()
 
+#procedureL char_choices()
+#Objects rep themselves 
+#None -> None
+def char_choices():
+    gender()
+    cadet_name()
+    take_cow_loan()
+
+def cadet_name():
+
+    global text_active
+    global text
+    
+    screen.draw.text('What is your name?', center = (250,220), color = GOLD, fontsize = 40)
+    if text_active == 1:
+        rect_act = screen.draw.filled_rect(text_rect, BLUE)
+    elif text_active == 2: 
+        rect_act = screen.draw.filled_rect (text_rect, CHARTREUSE)
+    else:
+        rect_in = screen.draw.filled_rect(text_rect, RED)
+    screen.draw.text(text, center = (250,260), color = BLACK, fontsize = 15)
+    
 def gender():
     """Offers the user two buttons to select their gender. Modifies
     cadet_lift list to reflect their selections.
@@ -145,16 +172,16 @@ def gender():
     
     screen.clear()
     screen.fill(GRAY)
-    screen.draw.text('Select your gender:', center = (250, 100), color = GOLD, fontsize = 64)
+    screen.draw.text('Select your gender:', center = (250, 100), color = GOLD, fontsize = 40)
     
-    gender_male.pos = (150,170)
+    gender_male.pos = (150,150)
     gender_male.draw()
-    screen.draw.text('Male', center = (150, 170), color = BLACK)
+    screen.draw.text('Male', center = (150, 150), color = BLACK)
     
     
-    gender_female.pos = (350,170)
+    gender_female.pos = (350,150)
     gender_female.draw()
-    screen.draw.text('Female', center = (350,170), color = BLACK)
+    screen.draw.text('Female', center = (350,150), color = BLACK)
 
 def select_mentors():
     """Presents a screen to users which allows them to choose whether or not they'd
@@ -181,17 +208,18 @@ def select_mentors():
 #None -> None 
 def take_cow_loan():
     
-    screen.clear()
-    screen.fill(GRAY)
-    yes_take.pos = (150,370)
+    global yes_take
+    global no_take
+    
+    yes_take.pos = (250,410)
     yes_take.draw()
-    screen.draw.text('Yes', center = (150,370), color = BLACK)
+    screen.draw.text('Yes', center = (250,410), color = BLACK)
     
-    no_take.pos = (350,370)
-    no_take.draw()
-    screen.draw.text('No', center = (350,370), color = BLACK)
+    #no_take.pos = (350,410)
+    #no_take.draw()
+    #screen.draw.text('No', center = (350,410), color = BLACK)
     
-    screen.draw.text('Would you like to take the Cow Cash?', center = (250,50), fontsize = 25, color = GOLD)
+    screen.draw.text('Click "Yes" to take the Cow Cash!', center = (250,350), fontsize = 40, color = GOLD)
 
 #Procedure: car_choice
 #Objects represent two buttons for users to select what 
@@ -336,7 +364,7 @@ def on_mouse_down(pos, button):
     global mentor_x
     global car_cheap
     global car_expensive
-
+    global text_active    
 
     if control['show_main'] == True:
         if button == mouse.LEFT and start.collidepoint(pos):
@@ -347,17 +375,29 @@ def on_mouse_down(pos, button):
     if control['char_choice'] == True:
         print('char choice')
         if button == mouse.LEFT and gender_female.collidepoint(pos):
+            gender_female = Actor('button_selected')
+            gender_male = Actor('button_default')
             cadet_life['gender'] = 'female'
-            control['char_choice'] = False
-            control['mentor_choice'] = True
+            #control['char_choice'] = False
+            #control['mentor_choice'] = True
             draw()
             
         if button == mouse.LEFT and gender_male.collidepoint(pos): 
             gender_male = Actor('button_selected')
+            gender_female = Actor('button_default')
             cadet_life['gender'] = 'male'
-            control['char_choice'] = False
-            control['mentor_choice'] = True
+            #control['char_choice'] = False
+            #control['mentor_choice'] = True
             draw()
+            
+        if button == mouse.LEFT and yes_take.collidepoint(pos):
+            cadet_life['money'] = 36000
+            control['loan_choice'] = False
+            control['life_choice'] = True
+            draw()    
+        
+        if button == mouse.LEFT and text_rect.collidepoint(pos):
+            text_active = True
             
     if control['mentor_choice'] == True:
         print('mentor_choice')
@@ -373,7 +413,7 @@ def on_mouse_down(pos, button):
             control['loan_choice'] = True
             draw()
             
-    if control['loan_choice'] == True:
+    #if control['loan_choice'] == True:
         print('loan_choice')
         if button == mouse.LEFT and yes_take.collidepoint(pos):
             cadet_life['money'] = 36000
@@ -493,5 +533,25 @@ def on_key_down(key):
             cadet_life['brokerage'] = cadet_life['money']*0.0
             cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
             cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
-
+    
         draw()
+        
+    global bool_list
+    global text_active
+    global text
+    global new_text
+    
+    if text_active == 1:
+        
+        if key == keys.RETURN:
+            cadet_life['name'] = text
+            text_active = 2
+            
+        elif key == keys.BACKSPACE:
+            new_text -= new_text[:-1]
+        else:
+            letter = str(key)
+            new_text += letter[-1]
+            
+        text = new_text + '' 
+        
