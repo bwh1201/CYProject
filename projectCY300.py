@@ -32,17 +32,16 @@ gender_female = Actor('button_default')
 
 gender_male = Actor('button_default')
 
-mentor_good = Actor('ltccody')
-
-mentor_good_bio = Actor('mentor_good_bio')
-
-mentor_x = Actor('cadet_x')
-
-mentor_x_bio = Actor('cadet_x_hov')
+mentor_x = Actor('cadet_x_hov')
+mentor_x_yes = Actor('element_red_rectangle')
+mentor_good = Actor('mento_good_bio')
+mentor_good_yes = Actor('element_red_rectangle')
+ment_select = False
 
 money_talk = Actor('money_split_desc')
 
-next_button = Actor('element_red_rectangle')
+
+next_button = Actor('element_blue_rectangle', (460,470))
 
 no_take = Actor('button_default') 
 
@@ -70,14 +69,13 @@ cadet_life['life'] = True
 cadet_life['name'] = ''
 cadet_life['gender'] = ''
 cadet_life['money'] = 1
-cadet_life['f_score'] = 0
 cadet_life['karma'] = 0
 
 #Control dictionary
 control = {}
-control['show_main'] = True
+control['show_main'] = False
 control['welcome'] = False
-control['char_choice'] = False
+control['char_choice'] = True
 control['mentor_choice'] = False
 control['loan_choice'] = False
 control['life_choice'] = False
@@ -102,8 +100,8 @@ def draw():
     if control['mentor_choice'] == True:
         select_mentors()
 
-    if control['loan_choice'] == True:
-        take_cow_loan()
+    #if control['loan_choice'] == True:
+        #take_cow_loan()
     
     if control['life_choice'] == True:
         car_choice()
@@ -188,20 +186,33 @@ def select_mentors():
     like a mentor through this process. The mentor will always instruct them to 
     follow the safest option.
     """
+    global mentor_x
+    global mentor_good
+    global mentor_x_yes
+    global mentor_good_yes
+    
     screen.clear()
     screen.fill(GRAY)
-    screen.draw.text('Select your mentor:', center = (250,50), fontsize = 64, color = GOLD)
+    screen.draw.text('Select your mentor:', center = (150,50), fontsize = 40, color = BLACK)
+   
+    mentor_good_yes.pos = (120,100)
+    mentor_x_yes.pos = (360,100)
+    mentor_x.pos = (360,265)
+    mentor_good.pos = (120,265)
     
-    mentor_x.draw()
-    mentor_x.midleft = (0, 350)
-
+    mentor_good_yes.draw()
+    mentor_x_yes.draw()
+    
+    screen.draw.text('Cadet X', center = (360,100), fontsize = 15, color = BLACK)
+    screen.draw.text('LTC Cody', center = (120,100), fontsize = 15, color = BLACK)
+    
     mentor_good.draw()
-    mentor_good.midright = (500, 350)
-
-    screen.draw.text('Cadet X (questionable)', midleft = (0,140), color = BLACK)
-    screen.draw.text('Cost = 1 American Burrito/Semester', midleft= (0,200))
-    screen.draw.text('LTC Cody (good)', midright = (500,140), color = BLACK)
-    screen.draw.text('Cost = $100/Semester', midright = (500,200))
+    mentor_x.draw()
+    
+    next_button.draw()
+    
+    screen.draw.text('NEXT', center = (470,470), fontsize = 15, color = BLACK)
+    
 
 #Procedure: take_cow_loan
 #yes or no question
@@ -251,7 +262,8 @@ def car_choice():
     car_expensive.pos = (400, 250)
     car_expensive.draw()
     screen.draw.text('Expensive', center= (400,150), color = BLACK)
-
+    
+    pass
 #blake
 #Procedure: free_weekend
 #Object represets a screen where users can make a decision
@@ -361,6 +373,8 @@ def on_mouse_down(pos, button):
     global yes_take
     global no_take
     global mentor_good
+    global mentor_good_yes
+    global mentor_x_yes
     global mentor_x
     global car_cheap
     global car_expensive
@@ -392,41 +406,53 @@ def on_mouse_down(pos, button):
             
         if button == mouse.LEFT and yes_take.collidepoint(pos):
             cadet_life['money'] = 36000
-            control['loan_choice'] = False
-            control['life_choice'] = True
-            draw()    
+            control['life_choice'] = False
+            control['char_choice'] = False
+            control['mentor_choice'] = True
+            draw()   
         
         if button == mouse.LEFT and text_rect.collidepoint(pos):
             text_active = True
             
     if control['mentor_choice'] == True:
+        if button == mouse.LEFT and mentor_x_yes.collidepoint(pos):
+            cadet_life['karma'] = .5
+            mentor_good_yes = Actor('element_red_rectangle')
+            mentor_x_yes = Actor('element_green_rectangle')
+        
+        if button == mouse.LEFT and mentor_good_yes.collidepoint(pos):
+            cadet_life['karma'] = 2
+            mentor_x_yes = Actor('element_red_rectangle')
+            mentor_good_yes = Actor('element_green_rectangle')
+    '''        
+    if control['mentor_choice'] == True:
         print('mentor_choice')
         if button == mouse.LEFT and mentor_x.collidepoint(pos):
             cadet_life['karma'] = 0.5
             control['mentor_choice'] = False
-            control['loan_choice'] = True
+            control['life_choice'] = True
             draw()
             
         if button == mouse.LEFT and mentor_good.collidepoint(pos):
             cadet_life['karma'] = 2
             control['mentor_choice'] = False
-            control['loan_choice'] = True
+            control['life_choice'] = True
             draw()
             
-    #if control['loan_choice'] == True:
+    if control['loan_choice'] == True:
         print('loan_choice')
         if button == mouse.LEFT and yes_take.collidepoint(pos):
             cadet_life['money'] = 36000
             control['loan_choice'] = False
-            control['life_choice'] = True
+            #control['life_choice'] = True
             draw()
-            
+    
         if button == mouse.LEFT and no_take.collidepoint(pos):
             cadet_life['money'] = 10
             control['loan_choice'] = False
             control['quit_menu'] = True
             draw()
-            
+    '''              
     if control['life_choice'] == True:
         if button == mouse.LEFT and car_cheap_text.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 10000
