@@ -68,15 +68,16 @@ cadet_life = {}
 cadet_life['life'] = True
 cadet_life['name'] = ''
 cadet_life['gender'] = ''
+cadet_life['mentor'] = ''
 cadet_life['money'] = 1
 cadet_life['karma'] = 0
 
 #Control dictionary
 control = {}
-control['show_main'] = False
+control['show_main'] = True
 control['welcome'] = False
-control['char_choice'] = True
-control['mentor_choice'] = False
+control['char_choice'] = False
+control['mentor_choice'] = True
 control['loan_choice'] = False
 control['life_choice'] = False
 control['f_weekend'] = False
@@ -211,7 +212,7 @@ def select_mentors():
     
     next_button.draw()
     
-    screen.draw.text('NEXT', center = (470,470), fontsize = 15, color = BLACK)
+    screen.draw.text('NEXT', center = (460,470), fontsize = 15, color = BLACK)
     
 
 #Procedure: take_cow_loan
@@ -249,7 +250,9 @@ def car_choice():
     screen.clear()
     screen.fill(GRAY)
     screen.draw.text("What car do you want to buy:", center = (250,50), color = GOLD, fontsize = 40)
-    screen.draw.text("{}".format(cadet_life), center = (250, 100), color = GOLD, fontsize = 15)
+    #screen.draw.text("{}".format(cadet_life), center = (250, 100), color = GOLD, fontsize = 15)
+    screen.draw.text('Cow loan remaining:  ' + str(cadet_life['money']), center = (250, 100), color = GOLD, fontsize = 15)
+
     
     car_cheap_text.center =(100,150)
     car_cheap_text.draw()
@@ -262,8 +265,10 @@ def car_choice():
     car_expensive.pos = (400, 250)
     car_expensive.draw()
     screen.draw.text('Expensive', center= (400,150), color = BLACK)
+    no_car = Actor('element_blue_rectangle', (250, 400))
+    no_car.draw()
+    screen.draw.text('No Car', center = (250,400), color = BLACK)
     
-    pass
 #blake
 #Procedure: free_weekend
 #Object represets a screen where users can make a decision
@@ -417,55 +422,31 @@ def on_mouse_down(pos, button):
     if control['mentor_choice'] == True:
         if button == mouse.LEFT and mentor_x_yes.collidepoint(pos):
             cadet_life['karma'] = .5
+            cadet_life['mentor'] = 'x'
             mentor_good_yes = Actor('element_red_rectangle')
             mentor_x_yes = Actor('element_green_rectangle')
         
         if button == mouse.LEFT and mentor_good_yes.collidepoint(pos):
             cadet_life['karma'] = 2
+            cadet_life['mentor'] = 'good'
             mentor_x_yes = Actor('element_red_rectangle')
             mentor_good_yes = Actor('element_green_rectangle')
-    '''        
-    if control['mentor_choice'] == True:
-        print('mentor_choice')
-        if button == mouse.LEFT and mentor_x.collidepoint(pos):
-            cadet_life['karma'] = 0.5
+        
+        if button == mouse.LEFT and next_button.collidepoint(pos):
             control['mentor_choice'] = False
             control['life_choice'] = True
-            draw()
-            
-        if button == mouse.LEFT and mentor_good.collidepoint(pos):
-            cadet_life['karma'] = 2
-            control['mentor_choice'] = False
-            control['life_choice'] = True
-            draw()
-            
-    if control['loan_choice'] == True:
-        print('loan_choice')
-        if button == mouse.LEFT and yes_take.collidepoint(pos):
-            cadet_life['money'] = 36000
-            control['loan_choice'] = False
-            #control['life_choice'] = True
-            draw()
-    
-        if button == mouse.LEFT and no_take.collidepoint(pos):
-            cadet_life['money'] = 10
-            control['loan_choice'] = False
-            control['quit_menu'] = True
-            draw()
-    '''              
+ 
+                 
     if control['life_choice'] == True:
         if button == mouse.LEFT and car_cheap_text.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 10000
             control['life_choice'] = False
             control['f_weekend'] = True
-            draw()
             
         if button == mouse.LEFT and car_expensive_text.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 20000
             control['life_choice'] = False
             control['f_weekend'] = True
-            print(cadet_life)
-            draw()
     
     if control['f_weekend'] == True:
         if button == mouse.LEFT and vermont.collidepoint(pos):
