@@ -26,6 +26,10 @@ car_expensive = Actor('car_expensive')
 
 car_expensive_text = Actor('button_default')
 
+choice_1 = Actor('element_green_rectangle', (120,250))
+choice_2 = Actor('element_blue_rectangle', (250,250))
+choice_3 = Actor('element_red_rectangle', (370,250))
+
 cloud = Actor('cloud')
 
 gender_female = Actor('button_default')
@@ -42,6 +46,8 @@ money_talk = Actor('money_split_desc')
 
 
 next_button = Actor('element_blue_rectangle', (460,470))
+
+no_car = Actor('element_blue_rectangle', (250, 400))
 
 no_take = Actor('button_default') 
 
@@ -77,7 +83,7 @@ control = {}
 control['show_main'] = True
 control['welcome'] = False
 control['char_choice'] = False
-control['mentor_choice'] = True
+control['mentor_choice'] = False
 control['loan_choice'] = False
 control['life_choice'] = False
 control['f_weekend'] = False
@@ -114,7 +120,7 @@ def draw():
         free_weekend()
     
     if control['major_event'] == True:
-        life_event()
+        big_event()
     
     if control['money_split'] == True:
         money_split()
@@ -265,7 +271,6 @@ def car_choice():
     car_expensive.pos = (400, 250)
     car_expensive.draw()
     screen.draw.text('Expensive', center= (400,150), color = BLACK)
-    no_car = Actor('element_blue_rectangle', (250, 400))
     no_car.draw()
     screen.draw.text('No Car', center = (250,400), color = BLACK)
     
@@ -277,6 +282,7 @@ def free_weekend():
     """Presents a screen to users asking them how they would spend their free weekend.
     Choices will subtract various amounts of money from users' bank accounts.
     """
+    screen.clear()
     screen.fill(GRAY)
     screen.draw.text('Free Weekend!!!', center = (250, 50), color = GOLD, fontsize = 64)
     screen.draw.text("It's Labor Day Weekend. Where do you want to go?", center = (250, 100),color = BLACK, fontsize = 26)
@@ -311,7 +317,67 @@ def life_event():
         screen.draw.text("On the bright side, at least you're not spending any money", center = (250,200), fontsize = 20)
         screen.draw.text('Press space to continue', center = (250, 400), fontsize = 20)
 
-
+def big_event():
+    ''' Gives three random choices and displays what your life event is
+    '''
+    screen.clear()
+    screen.fill(GRAY)
+    screen.draw.text('Choose option A, B, or C', center = (250,50))
+    screen.draw.text('A', center = (120,220), fontsize = 40)
+    screen.draw.text('B', center = (250,220), fontsize = 40)
+    screen.draw.text('C', center = (370,220), fontsize = 40)
+    
+    choice_1.draw()
+    choice_2.draw()
+    choice_3.draw()
+    
+    
+    
+    
+def choice_a():
+    global cadet_life
+    screen.clear()
+    
+    num = random.randint(0,11)
+    
+    if num % 2 == 0 :
+        screen.fill(RED)
+        screen.draw.text('You chose choice A.  \n A stands for Alcohol Board! \n At the least your saving money!', center = (250,250), fontsize = 30, color = BLACK)
+    else: 
+        screen.fill(CHARTREUSE)
+        screen.draw.text('You chose choice A.  \n You\'re getting married! Congrats! Slightly expensive... \n ', center = (250,250), fontsize = 30, color = BLACK)
+        cadet_life['money'] -= 2000
+    
+def choice_b():
+    global cadet_life
+    screen.clear()
+    
+    num = random.randint(0,11)
+    
+    if num % 4 == 0 :
+        screen.fill(CHARTREUSE)
+        screen.draw.text('You chose choice B. \n You just won the lottery! \n Here is an extra $10k', center = (250,250), fontsize = 30, color = BLACK)
+        cadet_life['money'] += 10000
+    else: 
+        screen.fill(RED)
+        screen.draw.text('You chose choice B. \n B stands for BOARD! \n At the least your saving money!', center = (250,250), fontsize = 30, color = BLACK)
+        
+    
+def choice_c():
+    global cadet_life
+    screen.clear()
+    
+    num = random.randint(0,100)
+    
+    if num % 5 == 0 :
+        screen.fill(RED)
+        screen.draw.text('You chose choice C.  \n C stands for CORONA! \n That means markets crash! Bye bye money!', center = (250,250), fontsize = 30, color = BLACK)
+        cadet_life['money'] -= 3000
+    else: 
+        screen.fill(CHARTREUSE)
+        screen.draw.text('You chose choice C. \n C stands for CHILLING. \n Nothing major happened in your life. ', center = (250,250), fontsize = 30, color = BLACK)
+        
+    
 def money_split():
     screen.fill(GRAY)
     money_talk.draw()
@@ -369,6 +435,7 @@ def take_quit():
 def death_screen():
     screen.clear()
     screen.fill(RED)
+    screen.draw.text('Uh-Oh something went wrong', center = (250, 250))
     
 def on_mouse_down(pos, button):
     global cadet_life
@@ -383,7 +450,8 @@ def on_mouse_down(pos, button):
     global mentor_x
     global car_cheap
     global car_expensive
-    global text_active    
+    global text_active
+    global no_car
 
     if control['show_main'] == True:
         if button == mouse.LEFT and start.collidepoint(pos):
@@ -440,14 +508,19 @@ def on_mouse_down(pos, button):
     if control['life_choice'] == True:
         if button == mouse.LEFT and car_cheap_text.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 10000
+            cadet_life['car'] = 'cheap'
             control['life_choice'] = False
             control['f_weekend'] = True
             
         if button == mouse.LEFT and car_expensive_text.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 20000
+            cadet_life['car'] = 'expensive'
             control['life_choice'] = False
             control['f_weekend'] = True
-    
+            
+        if button == mouse.LEFT and no_car.collidepoint(pos):
+            cadet_life['car'] = None
+            
     if control['f_weekend'] == True:
         if button == mouse.LEFT and vermont.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 500
@@ -455,7 +528,8 @@ def on_mouse_down(pos, button):
             control['major_event'] = True
             print(cadet_life)
             draw()
-            
+    #put this under if winter_break?  
+    
         if button == mouse.LEFT and vegas.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 2000
             control['f_weekend'] = False
@@ -468,7 +542,14 @@ def on_mouse_down(pos, button):
             control['money_split'] = False
             control['year_ten'] = True
 
-
+    if control['major_event']:
+        if button == mouse.LEFT and choice_1.collidepoint(pos):
+            choice_a()
+        if button == mouse.LEFT and choice_2.collidepoint(pos):
+            choice_b()
+        if button == mouse.LEFT and choice_3.collidepoint(pos):
+            choice_c()
+            
             
 def on_key_down(key):
     """Recieves a keystroke on the spacebar. Advances the control loop by 1 to begin the
