@@ -12,6 +12,8 @@ WIDTH = 500
 
 
 #GLobal Variables (sorted alphabetically)
+big_active = False
+
 bio_x = Actor('bio_x')
 
 button1 = Actor('element_grey_rectangle_glossy')
@@ -29,6 +31,9 @@ car_expensive_text = Actor('button_default')
 choice_1 = Actor('element_green_rectangle', (120,250))
 choice_2 = Actor('element_blue_rectangle', (250,250))
 choice_3 = Actor('element_red_rectangle', (370,250))
+choose_a = False
+choose_b = False
+choose_c = False
 
 cloud = Actor('cloud')
 
@@ -75,19 +80,19 @@ cadet_life['life'] = True
 cadet_life['name'] = ''
 cadet_life['gender'] = ''
 cadet_life['mentor'] = ''
-cadet_life['money'] = 1
+cadet_life['money'] = 36000
 cadet_life['karma'] = 0
 
 #Control dictionary
 control = {}
-control['show_main'] = True
+control['show_main'] = False
 control['welcome'] = False
 control['char_choice'] = False
 control['mentor_choice'] = False
 control['loan_choice'] = False
 control['life_choice'] = False
 control['f_weekend'] = False
-control['major_event'] = False
+control['major_event'] = True
 control['money_split'] = False
 control['year_ten'] = False
 control['quit_menu'] = False
@@ -322,31 +327,49 @@ def big_event():
     '''
     screen.clear()
     screen.fill(GRAY)
-    screen.draw.text('Choose option A, B, or C', center = (250,50))
-    screen.draw.text('A', center = (120,220), fontsize = 40)
-    screen.draw.text('B', center = (250,220), fontsize = 40)
-    screen.draw.text('C', center = (370,220), fontsize = 40)
+
+    global choose_a
+    global choose_b
+    global choose_c
     
-    choice_1.draw()
-    choice_2.draw()
-    choice_3.draw()
+    if choose_a:
+        choice_a()
+    elif choose_b:
+        choice_b()
+    elif choose_c:
+        choice_c()
+    else:
+        screen.draw.text('Choose option A, B, or C', center = (250,50))
+        screen.draw.text('A', center = (120,220), fontsize = 40)
+        screen.draw.text('B', center = (250,220), fontsize = 40)
+        screen.draw.text('C', center = (370,220), fontsize = 40)
     
+        choice_1.draw()
+        choice_2.draw()
+        choice_3.draw()
+    
+    next_button.draw()
+    screen.draw.text('NEXT', center = (460,470), fontsize = 15, color = BLACK)
+
     
     
     
 def choice_a():
     global cadet_life
     screen.clear()
-    
     num = random.randint(0,11)
     
     if num % 2 == 0 :
         screen.fill(RED)
-        screen.draw.text('You chose choice A.  \n A stands for Alcohol Board! \n At the least your saving money!', center = (250,250), fontsize = 30, color = BLACK)
+        screen.draw.text('You chose choice A.  \n A stands for Alcohol Board! \n At the least your saving money!\n \n Click next', center = (250,250), fontsize = 30, color = BLACK)
+        screen.draw.text('Current Balance: ' + str(cadet_life['money']), center = (250,400), fontsize = 35, color = BLACK)
     else: 
         screen.fill(CHARTREUSE)
-        screen.draw.text('You chose choice A.  \n You\'re getting married! Congrats! Slightly expensive... \n ', center = (250,250), fontsize = 30, color = BLACK)
+        screen.draw.text('You chose choice A.  \n You\'re getting married! Congrats! \n Slightly expensive... \n \n Click next', center = (250,250), fontsize = 30, color = BLACK)
         cadet_life['money'] -= 2000
+        screen.draw.text('-2000', center = (250,350), fontsize = 35, color = RED)
+        screen.draw.text('Current Balance: ' + str(cadet_life['money']), center = (250,400), fontsize = 35, color = BLACK)
+
     
 def choice_b():
     global cadet_life
@@ -356,11 +379,14 @@ def choice_b():
     
     if num % 4 == 0 :
         screen.fill(CHARTREUSE)
-        screen.draw.text('You chose choice B. \n You just won the lottery! \n Here is an extra $10k', center = (250,250), fontsize = 30, color = BLACK)
+        screen.draw.text('You chose choice B. \n You just won the lottery! \n Here is an extra $10k\n \n Click next', center = (250,250), fontsize = 30, color = BLACK)
         cadet_life['money'] += 10000
+        screen.draw.text('+10000', center = (250,350), fontsize = 35, color = BLUE)
+        screen.draw.text('Current Balance: ' + str(cadet_life['money']), center = (250,400), fontsize = 35, color = BLACK)
     else: 
         screen.fill(RED)
-        screen.draw.text('You chose choice B. \n B stands for BOARD! \n At the least your saving money!', center = (250,250), fontsize = 30, color = BLACK)
+        screen.draw.text('Current Balance: ' + str(cadet_life['money']), center = (250,400), fontsize = 35, color = BLACK)
+        screen.draw.text('You chose choice B. \n B stands for BOARD! \n At the least your saving money!\n \n Click next', center = (250,250), fontsize = 30, color = BLACK)
         
     
 def choice_c():
@@ -371,12 +397,14 @@ def choice_c():
     
     if num % 5 == 0 :
         screen.fill(RED)
-        screen.draw.text('You chose choice C.  \n C stands for CORONA! \n That means markets crash! Bye bye money!', center = (250,250), fontsize = 30, color = BLACK)
+        screen.draw.text('You chose choice C.  \n C stands for CORONA! \n That means markets crash! Bye bye money!\n \n Click next', center = (250,250), fontsize = 30, color = BLACK)
         cadet_life['money'] -= 3000
+        screen.draw.text('-3000', center = (250,350), fontsize = 35, color = GOLD)
+        screen.draw.text('Current Balance: ' + str(cadet_life['money']), center = (250,400), fontsize = 35, color = BLACK)
     else: 
         screen.fill(CHARTREUSE)
-        screen.draw.text('You chose choice C. \n C stands for CHILLING. \n Nothing major happened in your life. ', center = (250,250), fontsize = 30, color = BLACK)
-        
+        screen.draw.text('You chose choice C. \n C stands for CHILLING. \n Nothing major happened in your life. \n \n Click next', center = (250,250), fontsize = 30, color = BLACK)
+        screen.draw.text('Current Balance: ' + str(cadet_life['money']), center = (250,400), fontsize = 35, color = BLACK)
     
 def money_split():
     screen.fill(GRAY)
@@ -541,14 +569,18 @@ def on_mouse_down(pos, button):
         if button == mouse.LEFT:
             control['money_split'] = False
             control['year_ten'] = True
-
+    global choose_a
+    global choose_b
+    global choose_c
     if control['major_event']:
         if button == mouse.LEFT and choice_1.collidepoint(pos):
-            choice_a()
+            choose_a = True
         if button == mouse.LEFT and choice_2.collidepoint(pos):
-            choice_b()
+            choose_b = True
         if button == mouse.LEFT and choice_3.collidepoint(pos):
-            choice_c()
+            choose_c = True
+        if button == mouse.LEFT and next_button.collidepoint(pos):
+            control['money_split'] = True
             
             
 def on_key_down(key):
