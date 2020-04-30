@@ -20,6 +20,7 @@ Things we need: clever name, image of cadet, backgrounds,
 '''
 import copy
 import random
+
 #Global Constants- background, colors, bank
 WIDTH = 500
 HEIGHT = 500
@@ -91,6 +92,8 @@ bar_choi = False
 ski_choi = False
 opp_choi = False
 
+#life event
+choice = 0
 #name = input("What is your name?")
 #Cadet are stored as a list, [name, alive(bool),
 # money(nested list with where it is?), frugal score, karma]
@@ -107,11 +110,11 @@ maj_event = False
 #global screen variables
 quit_msg = False
 
-show_main = False
+show_main = True
 welcome = False
 char_choice = False
 life_choi = False
-mentor_bool = True
+mentor_bool = False
 f_weekend = False
 major_event = False
 arm_nav = False
@@ -343,7 +346,7 @@ def life_choices():
     screen.draw.text(str(cadet_life[2]), center = (400,30), color = GOLD)
 
     next_button.draw()
-    
+   
     
 #blake
 #Procedure: select_mentors
@@ -398,9 +401,8 @@ def free_weekend():
     global ski_choi
     global opp_choi
     
-    if wek_choice:
-        make_the_choice()
-    elif ny_choi:
+    
+    if ny_choi:
         nyc_wek()
     elif bar_choi:
         barrack_wek()
@@ -408,7 +410,8 @@ def free_weekend():
         ski_wek()
     elif opp_choi:
         opp_wek()
-
+    else: 
+        make_the_choice()
 
 def nyc_wek():
     screen.clear()
@@ -416,8 +419,8 @@ def nyc_wek():
     global cadet_life
     screen.draw.text('Here is what your mentor has to say:', center = (200,50), color = BLACK)
     
-    if cadet_life[3][1] == 'good':
-        screen.draw.text('Are you sure you want to do this? \n According to your AY calendar you have a thayer week coming up. \n Think long and hard about your finances and where you want to be as well.', center = (250,250), fontsize = 30, color = BLACK)
+    if cadet_life[3][1] == 0:
+        screen.draw.text('Are you sure you want to do this? \n Thayer week coming up. \n Can your wallet take the hit?\n Also higher risk of a board', center = (250,250), fontsize = 30, color = BLACK)
     else:
         screen.draw.text('Great decision.  School doesn\'t matter anyway. \n Use that cow loan go have fun!' , center = (250,250), fontsize = 30, color = BLACK)
     next_button.draw()
@@ -429,7 +432,7 @@ def barrack_wek():
     global cadet_life
     screen.draw.text('Here is what your mentor has to say:', center = (200,50), color = BLACK)
     
-    if cadet_life[3][1] == 'good':
+    if cadet_life[3][1] == 0:
         screen.draw.text('Fantastic decision. You had a rough week coming up and this is definitely best. \n You deserve the rest and recovery and extra time to work ahead.', center = (250,250), fontsize = 30, color = BLACK)
     else:
         screen.draw.text('You are so lame!\n You are in college for goodness sake. \n  This is a terrible decision. \n You deserve a break.', center = (250,250), fontsize = 30, color = BLACK)
@@ -442,8 +445,8 @@ def ski_wek():
     global cadet_life
     screen.draw.text('Here is what your mentor has to say:', center = (200,50), color = BLACK)
     
-    if cadet_life[3][1] == 'good':
-        screen.draw.text('Are you sure you want to do this? \n According to your AY calendar you have a thayer week coming up. \n Think long and hard about your finances and where you want to be as well.', center = (250,250), fontsize = 30, color = BLACK)
+    if cadet_life[3][1] == 0:
+        screen.draw.text('Are you sure you want to do this? \n Thayer week coming up. \n Think if your wallet can sustain. \n Also very high risk of injury.', center = (250,250), fontsize = 30, color = BLACK)
     else:
         screen.draw.text('Skiing is dope! You earned it. \n Just don\'t get hurt. \n Wouldn\'t want to miss out on floor hockey', center = (250,250), fontsize = 30, color = BLACK)
     next_button.draw()
@@ -455,7 +458,7 @@ def opp_wek():
     global cadet_life
     screen.draw.text('Here is what your mentor has to say:', center = (200,50), color = BLACK)
     
-    if cadet_life[3][1] == 'good':
+    if cadet_life[3][1] == 0:
         screen.draw.text('Not a terrible decision but make sure to take some time and work ahead.', center = (250,250), fontsize = 30, color = BLACK)
     else:
         screen.draw.text('Do not be lame.  You have the pass, take it!', center = (250,250), fontsize = 30, color = BLACK)
@@ -497,16 +500,37 @@ def life_event():
     """Presents a user with a random life event (engagement, family member hospitalization, etc) and
     prompts them to respond. Responses will subtract various amounts of money from users' bank accounts.
     """
-    screen.fill(GRAY)
-    screen.draw.text('life_event', center = (250,250))
     global cadet_life
+    global choice
+    screen.fill(GRAY)
+    screen.draw.text('Choose option A, B, or C', center = (250,50))
+    screen.draw.text('A', center = (120,220), fontsize = 40)
+    screen.draw.text('B', center = (250,220), fontsize = 40)
+    screen.draw.text('C', center = (370,220), fontsize = 40)
     
-    if random.randint(1,6)*cadet_life[4] >= 13:
+    
+    choice_1 = Actor('element_green_rectangle', (120,250))
+    choice_2 = Actor('element_blue_rectangle', (250,250))
+    choice_3 = Actor('element_red_rectangle', (370,250))
+    choice_1.draw()
+    choice_2.draw()
+    choice_3.draw()
+    
+    
+    if choice == 1:
+        life_event1()
+    elif choice == 2:
+        life_event2()
+    elif choice == 3:
+        life_event3()
         
-    
-    corona_virus()
-def corona_virus():
+def life_event1():
     pass
+def life_event2():
+    pass
+def life_event3():
+    pass  
+
     
 #nick
 #Procedure: army_navy
