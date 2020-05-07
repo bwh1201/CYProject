@@ -85,14 +85,14 @@ cadet_life['karma'] = 0
 
 #Control dictionary
 control = {}
-control['show_main'] = False
+control['show_main'] = True
 control['welcome'] = False
 control['char_choice'] = False
 control['mentor_choice'] = False
 control['loan_choice'] = False
 control['life_choice'] = False
 control['f_weekend'] = False
-control['major_event'] = True
+control['major_event'] = False
 control['money_split'] = False
 control['year_ten'] = False
 control['quit_menu'] = False
@@ -149,9 +149,16 @@ def home_screen():
 
 def welcome_screen():
     screen.clear()
-    screen.fill(GRAY)
-    welcome_msg.center = (WIDTH/2, HEIGHT/2)
-    welcome_msg.draw()
+    screen.fill(GRAY) 
+    money = Actor('money', (250,250))
+    money.draw()
+    screen.draw.text('Welcome to CASH COW!',  center = (250,100), color = GOLD, fontsize = 40)
+    screen.draw.text('\n This is a game where you can practice spending \n your hard earned cow loan. \n This game was created with cadets in mind. \n Hopefully you have fun and end up making wise choices! \n Enjoy!', center = (250,240), color = BLACK, fontsize = 25)
+    screen.draw.text('Created by Nick Ashby and Blake Havern\n \n Press SPACE bar to continue', center = (250,370), color = BLACK, fontsize = 40)
+    
+   
+
+
 
 #procedureL char_choices()
 #Objects rep themselves 
