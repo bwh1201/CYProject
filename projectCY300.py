@@ -81,7 +81,7 @@ cadet_life['name'] = ''
 cadet_life['gender'] = ''
 cadet_life['mentor'] = ''
 cadet_life['money'] = 36000
-cadet_life['karma'] = 0
+cadet_life['stock_data'] = []
 
 #Control dictionary
 control = {}
@@ -95,6 +95,8 @@ control['f_weekend'] = False
 control['major_event'] = False
 control['money_split'] = False
 control['year_ten'] = False
+control['year_twenty'] = False
+control['year_thirty'] = False
 control['quit_menu'] = False
 
 def draw():
@@ -132,6 +134,12 @@ def draw():
     
     if control['year_ten'] == True:
         year_ten()
+    
+    if control['year_twenty'] == True:
+        year_twenty()
+    
+    if control['year_thirty'] == True:
+        year_thirty()
         
     if cadet_life['money'] <= 0:
         death_screen()
@@ -173,7 +181,7 @@ def cadet_name():
     global text_active
     global text
     
-    screen.draw.text('What is your name?', center = (250,220), color = GOLD, fontsize = 40)
+    screen.draw.text('What is your name? \n (type last name then enter)', center = (250,220), color = GOLD, fontsize = 30)
     if text_active == 1:
         rect_act = screen.draw.filled_rect(text_rect, BLUE)
     elif text_active == 2: 
@@ -241,13 +249,15 @@ def take_cow_loan():
     global yes_take
     global no_take
     
-    yes_take.pos = (250,410)
+    yes_take.pos = (150,410)
     yes_take.draw()
-    screen.draw.text('Yes', center = (250,410), color = BLACK)
-    
+    no_take.pos = (350, 410)
+    no_take.draw()
+    screen.draw.text('Yes', center = (150,410), color = BLACK)
+    screen.draw.text('No', center = (350,410), color = BLACK)
+
     #no_take.pos = (350,410)
     #no_take.draw()
-    #screen.draw.text('No', center = (350,410), color = BLACK)
     
     screen.draw.text('Click "Yes" to take the Cow Cash!', center = (250,350), fontsize = 40, color = GOLD)
 
@@ -414,6 +424,7 @@ def choice_c():
         screen.draw.text('Current Balance: ' + str(cadet_life['money']), center = (250,400), fontsize = 35, color = BLACK)
     
 def money_split():
+    screen.clear()
     screen.fill(GRAY)
     money_talk.draw()
     screen.draw.text('What percent of your ${} \n would you like to put in a brokerage account?'.format(cadet_life['money']), center = (250,250), fontsize = 30, color = GOLD)
@@ -438,7 +449,17 @@ def get_random(data):
     return data
 
 def get_10_year(data):
-    data = data[:9]
+    data = data[:10]
+    multiplier = (max(data)-min(data))/len(data)
+    return multiplier
+
+def get_20_year(data):
+    data = data[11:21]
+    multiplier = (max(data)-min(data))/len(data)
+    return multiplier
+
+def get_30_year(data):
+    data = data[22:32]
     multiplier = (max(data)-min(data))/len(data)
     return multiplier
 
@@ -446,19 +467,54 @@ def year_ten():
     screen.clear()
     screen.fill(GRAY)
     screen.draw.text("10 Years Later", center = (250, 50), color = GOLD, fontsize = 64)
-    
+    screen.draw.text('Welcome CPT {}'.format(cadet_life['name']), center = (250, 100), color = GOLD, fontsize = 32)
     cadet_life['savings_10'] = interest(cadet_life['savings'], 0.05, 1, 10)
     
     dat = get_stock_data('sandp.txt')
     get_random(dat)
     money_multiplier = get_10_year(dat)
+    cadet_life['stock_data'] = dat
     cadet_life['brokerage_10'] = cadet_life['brokerage']*money_multiplier
     
-    screen.draw.text('Savings = ${:.2f}'.format(cadet_life['savings_10']),center = (250, 100),fontsize = 40)
-    screen.draw.text('Your savings account has gained \n ${:.2f} \n in 10 years'.format(cadet_life['savings_10']-cadet_life['savings']),center = (250,150), fontsize = 25, color = BLACK)
+    screen.draw.text('Savings = ${:.2f}'.format(cadet_life['savings_10']),center = (250, 200),fontsize = 40)
+    screen.draw.text('Your savings account has gained \n ${:.2f} \n in 10 years'.format(cadet_life['savings_10']-cadet_life['savings']),center = (250,250), fontsize = 25, color = BLACK)
     screen.draw.text('Brokerage = ${:.2f}'.format(cadet_life['brokerage_10']), center = (250, 300), fontsize = 40)
     screen.draw.text('Your brokerage account has gained \n ${:.2f} \n in 10 years'.format(cadet_life['brokerage_10']-cadet_life['brokerage']),center = (250,350), fontsize = 25, color = BLACK)
+    screen.draw.text('Press enter to continue', center = (250, 450), fontsize = 30, color = BLACK)
+    
+def year_twenty():
+    screen.clear()
+    screen.fill(GRAY)
+    screen.draw.text("20 Years Later", center = (250, 50), color = GOLD, fontsize = 64)
+    screen.draw.text('Welcome LTC {}'.format(cadet_life['name']), center = (250, 100), color = GOLD, fontsize = 32)
+    
+    dat = cadet_life['stock_data']
+    money_multiplier = get_20_year(dat)
+    cadet_life['brokerage_20'] = cadet_life['brokerage_10']*money_multiplier
+    cadet_life['savings_20'] = interest(cadet_life['savings_10'], 0.05, 1, 10)
+    
+    screen.draw.text('Savings = ${:.2f}'.format(cadet_life['savings_20']),center = (250, 200),fontsize = 40)
+    screen.draw.text('Your savings account has gained \n ${:.2f} \n in 20 years'.format(cadet_life['savings_20']-cadet_life['savings']),center = (250,250), fontsize = 25, color = BLACK)
+    screen.draw.text('Brokerage = ${:.2f}'.format(cadet_life['brokerage_20']), center = (250, 300), fontsize = 40)
+    screen.draw.text('Your brokerage account has gained \n ${:.2f} \n in 20 years'.format(cadet_life['brokerage_20']-cadet_life['brokerage']),center = (250,350), fontsize = 25, color = BLACK)
+    screen.draw.text('Click anywhere to continue', center = (250, 450), fontsize = 30, color = BLACK)
 
+def year_thirty():
+    screen.clear()
+    screen.fill(GRAY)
+    screen.draw.text("30 Years Later", center = (250, 50), color = GOLD, fontsize = 64)
+    screen.draw.text('Welcome BG {}'.format(cadet_life['name']), center = (250, 100), color = GOLD, fontsize = 32)
+    
+    dat = cadet_life['stock_data']
+    money_multiplier = get_30_year(dat)
+    cadet_life['brokerage_30'] = cadet_life['brokerage_20']*money_multiplier
+    cadet_life['savings_30'] = interest(cadet_life['savings_20'], 0.05, 1, 10)
+    
+    screen.draw.text('Savings = ${:.2f}'.format(cadet_life['savings_30']),center = (250, 200),fontsize = 40)
+    screen.draw.text('Your savings account has gained \n ${:.2f} \n in 30 years'.format(cadet_life['savings_30']-cadet_life['savings']),center = (250,250), fontsize = 25, color = BLACK)
+    screen.draw.text('Brokerage = ${:.2f}'.format(cadet_life['brokerage_30']), center = (250, 300), fontsize = 40)
+    screen.draw.text('Your brokerage account has gained \n ${:.2f} \n in 30 years'.format(cadet_life['brokerage_30']-cadet_life['brokerage']),center = (250,350), fontsize = 25, color = BLACK)
+    screen.draw.text('Press enter to continue', center = (250, 450), fontsize = 30, color = BLACK)
 
 def take_quit():
     cadet_life['life'] = False
@@ -517,7 +573,12 @@ def on_mouse_down(pos, button):
             control['life_choice'] = False
             control['char_choice'] = False
             control['mentor_choice'] = True
-            draw()   
+            draw()
+        
+        if button == mouse.LEFT and no_take.collidepoint(pos):
+            cadet_life['money'] = 10
+            control['char_choice'] = False
+            control['quit_menu'] = True
         
         if button == mouse.LEFT and text_rect.collidepoint(pos):
             text_active = True
@@ -555,6 +616,8 @@ def on_mouse_down(pos, button):
             
         if button == mouse.LEFT and no_car.collidepoint(pos):
             cadet_life['car'] = None
+            control['life_choice'] = False
+            control['f_weekend'] = True
             
     if control['f_weekend'] == True:
         if button == mouse.LEFT and vermont.collidepoint(pos):
@@ -579,7 +642,7 @@ def on_mouse_down(pos, button):
     global choose_a
     global choose_b
     global choose_c
-    if control['major_event']:
+    if control['major_event'] == True:
         if button == mouse.LEFT and choice_1.collidepoint(pos):
             choose_a = True
         if button == mouse.LEFT and choice_2.collidepoint(pos):
@@ -588,7 +651,13 @@ def on_mouse_down(pos, button):
             choose_c = True
         if button == mouse.LEFT and next_button.collidepoint(pos):
             control['money_split'] = True
-            
+    
+    if control['year_twenty'] == True:
+        if button == mouse.LEFT:
+            control['year_twenty'] = False
+            control['year_thirty'] = True
+
+
             
 def on_key_down(key):
     """Recieves a keystroke on the spacebar. Advances the control loop by 1 to begin the
@@ -660,8 +729,17 @@ def on_key_down(key):
             cadet_life['brokerage'] = cadet_life['money']*0.0
             cadet_life['savings'] = cadet_life['money'] - cadet_life['brokerage']
             cadet_life['money'] = cadet_life['savings']+cadet_life['brokerage']
-    
+            
         draw()
+
+    if control['year_ten'] == True:
+        if key == keys.RETURN:
+            control['year_ten'] = False
+            control['year_twenty'] = True
+        draw()
+    
+
+       
         
     global bool_list
     global text_active
