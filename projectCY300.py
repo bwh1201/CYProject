@@ -521,6 +521,7 @@ def year_thirty():
     screen.draw.text('Press enter to continue', center = (250, 450), fontsize = 30, color = BLACK)
 
 def the_end():
+    global cadet_life
     screen.clear()
     screen.fill(CHARTREUSE)
     
@@ -528,6 +529,15 @@ def the_end():
     money.draw()
     screen.draw.text('You have reached the end', center = (250, 100), fontsize = 30, color = BLACK)
     screen.draw.text('You ended your journey\n with a now meaningless ' + str(cadet_life['car']) + ' car \n and $' + str(cadet_life['money']) + ' in savings', center = (260,300), fontsize = 30, color = BLACK)
+    if cadet_life['money'] > 36000 and cadet_life['mentor'] == 'good':
+        screen.draw.text('LTC Cody is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30, color = BLACK)
+    elif cadet_life['money'] > 36000 and cadet_life['mentor'] == 'x':
+        screen.draw.text('CDT X is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30, color = BLACK)    
+    elif cadet_life['money'] <= 36000 and cadet_life['mentor'] == 'good':
+        screen.draw.text('LTC Cody is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30, color = BLACK)
+    else:
+        screen.draw.text('CDT X is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30, color = BLACK)
+
     
 def take_quit():
     cadet_life['life'] = False
