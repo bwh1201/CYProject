@@ -669,15 +669,15 @@ def the_end():
     money = Actor('money', (250,250))
     money.draw()
     screen.draw.text('You have reached the end', center = (250, 100), fontsize = 30)
-    screen.draw.text('You ended your journey\n with a now meaningless {} car \n and ${:.2f} in savings.'.format(str(cadet_life['car']), cadet_life['savings_30']), center = (260,300), fontsize = 30)
-    if cadet_life['brokerage_30'] > 100000 and cadet_life['mentor'] == 'good':
-        screen.draw.text('LTC Cody is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30)
-    elif cadet_life['brokerage_30'] > 100000 and cadet_life['mentor'] == 'x':
-        screen.draw.text('CDT X is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30) 
-    elif cadet_life['brokerage'] <= 100000 and cadet_life['mentor'] == 'good':
-        screen.draw.text('LTC Cody is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30)
+    screen.draw.text('You ended your journey\n with a now meaningless {} \n and ${:.2f} in savings.'.format(str(cadet_life['car']), cadet_life['savings_30']), center = (260,300), fontsize = 30, color = GOLD)
+    if cadet_life['savings_30'] > 36000 and cadet_life['mentor'] == 'good':
+        screen.draw.text('LTC Cody is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30, color = GOLD)
+    elif cadet_life['savings_30'] > 36000 and cadet_life['mentor'] == 'x':
+        screen.draw.text('CDT X is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30, color = GOLD) 
+    elif cadet_life['savings_30'] <= 36000 and cadet_life['mentor'] == 'good':
+        screen.draw.text('LTC Cody is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30, color = GOLD)
     else:
-        screen.draw.text("CDT X is dissapointed by your choices \n but hey, we've all been there, bro. \n Maybe play a few more times and see \n where it went wrong", center = (260,400), fontsize = 30)
+        screen.draw.text("CDT X is dissapointed by your choices \n but hey, we've all been there, bro. \n Maybe play a few more times and see \n where it went wrong", center = (260,400), fontsize = 30, color = GOLD)
 
     
 def take_quit():
@@ -771,18 +771,18 @@ def on_mouse_down(pos, button):
     if control['life_choice'] == True:
         if button == mouse.LEFT and car_cheap_text.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 10000
-            cadet_life['car'] = 'cheap'
+            cadet_life['car'] = 'cheap car'
             control['life_choice'] = False
             control['f_weekend'] = True
             
         if button == mouse.LEFT and car_expensive_text.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 20000
-            cadet_life['car'] = 'expensive'
+            cadet_life['car'] = 'expensive car'
             control['life_choice'] = False
             control['f_weekend'] = True
             
         if button == mouse.LEFT and no_car.collidepoint(pos):
-            cadet_life['car'] = None
+            cadet_life['car'] = 'bike'
             control['life_choice'] = False
             control['f_weekend'] = True
             
