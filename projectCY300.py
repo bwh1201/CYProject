@@ -98,6 +98,7 @@ control['year_ten'] = False
 control['year_twenty'] = False
 control['year_thirty'] = False
 control['quit_menu'] = False
+control['end'] = False
 
 def draw():
     print(cadet_life)
@@ -140,6 +141,9 @@ def draw():
     
     if control['year_thirty'] == True:
         year_thirty()
+    
+    if control['end'] ==True:
+        the_end()
         
     if cadet_life['money'] <= 0:
         death_screen()
@@ -516,6 +520,15 @@ def year_thirty():
     screen.draw.text('Your brokerage account has gained \n ${:.2f} \n in 30 years'.format(cadet_life['brokerage_30']-cadet_life['brokerage']),center = (250,350), fontsize = 25, color = BLACK)
     screen.draw.text('Press enter to continue', center = (250, 450), fontsize = 30, color = BLACK)
 
+def the_end():
+    screen.clear()
+    screen.fill(CHARTREUSE)
+    
+    money = Actor('money', (250,250))
+    money.draw()
+    screen.draw.text('You have reached the end', center = (250, 100), fontsize = 30, color = BLACK)
+    screen.draw.text('You ended your journey\n with a now meaningless ' + str(cadet_life['car']) + ' car \n and $' + str(cadet_life['money']) + ' in savings', center = (260,300), fontsize = 30, color = BLACK)
+    
 def take_quit():
     cadet_life['life'] = False
     screen.clear()
@@ -656,7 +669,11 @@ def on_mouse_down(pos, button):
         if button == mouse.LEFT:
             control['year_twenty'] = False
             control['year_thirty'] = True
-
+            
+    if control['year_thirty'] == True:
+        if button == mouse.LEFT:
+            control['year_thirty'] = False
+            control['end'] = True    
 
             
 def on_key_down(key):
