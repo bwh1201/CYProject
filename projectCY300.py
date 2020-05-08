@@ -669,7 +669,7 @@ def the_end():
     money = Actor('money', (250,250))
     money.draw()
     screen.draw.text('You have reached the end', center = (250, 100), fontsize = 30)
-    screen.draw.text('You ended your journey\n with a now meaningless ' + str(cadet_life['car']) + ' car \n and $' + str(cadet_life['savings_30']) + ' in savings', center = (260,300), fontsize = 30)
+    screen.draw.text('You ended your journey\n with a now meaningless {} car \n and ${:.2f} in savings.'.format(str(cadet_life['car']), cadet_life['savings_30']), center = (260,300), fontsize = 30)
     if cadet_life['brokerage_30'] > 100000 and cadet_life['mentor'] == 'good':
         screen.draw.text('LTC Cody is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30)
     elif cadet_life['brokerage_30'] > 100000 and cadet_life['mentor'] == 'x':
@@ -843,7 +843,7 @@ def on_mouse_down(pos, button):
             control['f_weekend'] = False
             control['money_split'] = True
             print('ere')
-            
+        draw()
             
     
     if control['winter_leave'] == True:
