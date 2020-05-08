@@ -71,8 +71,26 @@ vermont = Actor('house')
 
 welcome_msg = Actor('welcome')
 
+wek_back_button = Actor('element_blue_rectangle', (50,450))
+
 yes_take = Actor('button_default') 
 
+#Weekend events
+nyc = Actor('nyc', (125,375))
+ski = Actor('ski', (375,375))
+barracks = Actor('barracks', (125,125))
+opp = Actor('palisades',(375,125))
+
+nyc_but = Actor('nyc', (350, 350))
+barracks_but = Actor('barracks', (350, 203))
+ski_but = Actor('ski', (145, 205))
+opp_but = Actor('opp_but', (145,350))
+
+wek_choice = True
+ny_choi = False
+bar_choi = False
+ski_choi = False
+opp_choi = False
 
 #User Information
 cadet_life = {}
@@ -81,17 +99,19 @@ cadet_life['name'] = ''
 cadet_life['gender'] = ''
 cadet_life['mentor'] = ''
 cadet_life['money'] = 36000
+cadet_life['karma'] = 0
 cadet_life['stock_data'] = []
 
 #Control dictionary
 control = {}
-control['show_main'] = True
+control['show_main'] = False
 control['welcome'] = False
 control['char_choice'] = False
 control['mentor_choice'] = False
 control['loan_choice'] = False
-control['life_choice'] = False
+control['life_choice'] = True
 control['f_weekend'] = False
+control['winter_leave'] = False
 control['major_event'] = False
 control['money_split'] = False
 control['year_ten'] = False
@@ -101,7 +121,6 @@ control['quit_menu'] = False
 control['end'] = False
 
 def draw():
-    print(cadet_life)
 
     if control['show_main'] == True:
         home_screen()
@@ -129,6 +148,9 @@ def draw():
     
     if control['major_event'] == True:
         big_event()
+    
+    if control['winter_leave'] == True:
+        winter_leave()
     
     if control['money_split'] == True:
         money_split()
@@ -166,11 +188,9 @@ def welcome_screen():
     money.draw()
     screen.draw.text('Welcome to CASH COW!',  center = (250,100), color = GOLD, fontsize = 40)
     screen.draw.text('\n This is a game where you can practice spending \n your hard earned cow loan. \n This game was created with cadets in mind. \n Hopefully you have fun and end up making wise choices! \n Enjoy!', center = (250,240), color = BLACK, fontsize = 25)
-    screen.draw.text('Created by Nick Ashby and Blake Havern\n \n Press SPACE bar to continue', center = (250,370), color = BLACK, fontsize = 40)
+    screen.draw.text('Created by Nick Ashby and Blake Havern\n \n Press SPACE bar to continue', center = (250,370), color = BLACK, fontsize = 35)
     
    
-
-
 
 #procedureL char_choices()
 #Objects rep themselves 
@@ -304,14 +324,126 @@ def car_choice():
 #Procedure: free_weekend
 #Object represets a screen where users can make a decision
 # None -> None
+#blake
+#Procedure: free_weekend
+#Object represets a screen where users can make a decision
+# None -> None
 def free_weekend():
     """Presents a screen to users asking them how they would spend their free weekend.
     Choices will subtract various amounts of money from users' bank accounts.
     """
+    global wek_choice 
+    global ny_choi 
+    global bar_choi 
+    global ski_choi
+    global opp_choi
+    
+    
+    if ny_choi == True:
+        nyc_wek()
+    elif bar_choi == True:
+        barrack_wek()
+    elif ski_choi == True:
+        ski_wek()
+    elif opp_choi == True:
+        opp_wek()
+    else: 
+        make_the_choice()
+
+def nyc_wek():
     screen.clear()
     screen.fill(GRAY)
-    screen.draw.text('Free Weekend!!!', center = (250, 50), color = GOLD, fontsize = 64)
-    screen.draw.text("It's Labor Day Weekend. Where do you want to go?", center = (250, 100),color = BLACK, fontsize = 26)
+    global cadet_life
+    screen.draw.text('Here is what your mentor has to say:', center = (200,50), color = BLACK)
+    
+    if cadet_life['mentor'] == 'good':
+        screen.draw.text('Are you sure you want to do this? \n Thayer week coming up. \n Can your wallet take the hit?\n Also higher risk of a board', center = (250,250), fontsize = 30, color = BLACK)
+    else:
+        screen.draw.text('Great decision.  School doesn\'t matter anyway. \n Use that cow loan go have fun!' , center = (250,250), fontsize = 30, color = BLACK)
+    next_button.draw()
+    screen.draw.text('NEXT', center = (460,470), fontsize = 15, color = BLACK)
+    wek_back_button.draw()
+    screen.draw.text('BACK', center = (50,450), fontsize = 15, color = BLACK)
+    
+        
+def barrack_wek():
+    screen.clear()
+    screen.fill(GRAY)
+    global cadet_life
+    screen.draw.text('Here is what your mentor has to say:', center = (200,50), color = BLACK)
+    
+    if cadet_life['mentor'] == 'good':
+        screen.draw.text('Fantastic decision.\n You had a rough week coming up and this is definitely best. \n You deserve the rest and recovery and extra time to work ahead.', center = (250,250), fontsize = 30, color = BLACK)
+    else:
+        screen.draw.text('You are so lame!\n You are in college for goodness sake. \n  This is a terrible decision. \n You deserve a break.', center = (250,250), fontsize = 30, color = BLACK)
+    next_button.draw()
+    screen.draw.text('NEXT', center = (460,470), fontsize = 15, color = BLACK)
+    wek_back_button.draw()      
+    screen.draw.text('BACK', center = (50,450), fontsize = 15, color = BLACK)
+
+
+def ski_wek():
+    screen.clear()
+    screen.fill(GRAY)
+    global cadet_life
+    screen.draw.text('Here is what your mentor has to say:', center = (200,50), color = BLACK)
+    
+    if cadet_life['mentor'] == 'good':
+        screen.draw.text('Are you sure you want to do this? \n Thayer week coming up. \n Think if your wallet can sustain. \n Also very high risk of injury.', center = (250,250), fontsize = 30, color = BLACK)
+    else:
+        screen.draw.text('Skiing is dope! You earned it. \n Just don\'t get hurt. \n Wouldn\'t want to miss out on floor hockey', center = (250,250), fontsize = 30, color = BLACK)
+    next_button.draw()
+    screen.draw.text('NEXT', center = (460,470), fontsize = 15, color = BLACK)
+    wek_back_button.draw() 
+    screen.draw.text('BACK', center = (50,450), fontsize = 15, color = BLACK)
+    
+       
+def opp_wek():
+    screen.clear()
+    screen.fill(GRAY)
+    global cadet_life
+    screen.draw.text('Here is what your mentor has to say:', center = (200,50), color = BLACK)
+    
+    if cadet_life['mentor'] == 'good':
+        screen.draw.text('Not a terrible decision \n but make sure to take some time and work ahead.', center = (250,250), fontsize = 30, color = BLACK)
+    else:
+        screen.draw.text('Do not be lame.  \n You have the pass, take it!', center = (250,250), fontsize = 30, color = BLACK)
+    next_button.draw()
+    screen.draw.text('NEXT', center = (460,470), fontsize = 15, color = BLACK)
+    wek_back_button.draw()  
+    screen.draw.text('BACK', center = (50,450), fontsize = 15, color = BLACK)
+
+    
+#selection screen for weekend
+def make_the_choice():   
+    global nyc
+    global barracks
+    global ski
+    global opp
+    global nyc_but
+    global barracks_but
+    global ski_but
+    global opp_but
+    screen.clear()
+    screen.fill(CHARTREUSE)
+    
+    barracks_but.draw()
+    nyc_but.draw()
+    ski_but.draw()
+    opp_but.draw()
+    
+    screen.draw.text('Congrats! \n You have made it to your \n first free weekend!', center = (250,45), fontsize = 40, color = BLACK)
+    screen.draw.text('Select the picture for your plans this weekend', center = (250,110), fontsize = 20, color = BLACK)
+    #weekend.draw()
+    
+    
+ 
+   
+def winter_leave():
+    screen.clear()
+    screen.fill(GRAY)
+    screen.draw.text('Winter Leave!!!', center = (250, 50), color = GOLD, fontsize = 64)
+    screen.draw.text("It's Winter Break. Where do you want to go?", center = (250, 100),color = BLACK, fontsize = 26)
     
     vegas.center = (350,250)
     vegas.draw()
@@ -329,6 +461,7 @@ def life_event():
     """Presents a user with a random life event (engagement, family member hospitalization, etc) and
     prompts them to respond. Responses will subtract various amounts of money from users' bank accounts.
     """
+    screen.clear()
     screen.fill(GRAY)
     screen.draw.text('MAJOR LIFE EVENT!', center = (250,50), color = GOLD, fontsize = 64)
     num = random.randint(0,100)
@@ -536,7 +669,7 @@ def the_end():
     elif cadet_life['money'] <= 36000 and cadet_life['mentor'] == 'good':
         screen.draw.text('LTC Cody is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30, color = BLACK)
     else:
-        screen.draw.text('CDT X is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30, color = BLACK)
+        screen.draw.text('CDT X is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see \n where it went wrong.', center = (260,400), fontsize = 30, color = BLACK)
 
     
 def take_quit():
@@ -609,6 +742,7 @@ def on_mouse_down(pos, button):
     if control['mentor_choice'] == True:
         if button == mouse.LEFT and mentor_x_yes.collidepoint(pos):
             cadet_life['karma'] = .5
+            
             cadet_life['mentor'] = 'x'
             mentor_good_yes = Actor('element_red_rectangle')
             mentor_x_yes = Actor('element_green_rectangle')
@@ -622,6 +756,8 @@ def on_mouse_down(pos, button):
         if button == mouse.LEFT and next_button.collidepoint(pos):
             control['mentor_choice'] = False
             control['life_choice'] = True
+            
+    
  
                  
     if control['life_choice'] == True:
@@ -643,9 +779,68 @@ def on_mouse_down(pos, button):
             control['f_weekend'] = True
             
     if control['f_weekend'] == True:
+        global wek_choice 
+        global ny_choi 
+        global bar_choi 
+        global ski_choi
+        global opp_choi
+        if button == mouse.LEFT and wek_back_button.collidepoint(pos):
+            wek_choice = True
+            ny_choi = False
+            bar_choi = False
+            ski_choi =False
+            opp_choi = False
+
+        if button == mouse.LEFT and opp_but.collidepoint(pos):
+            wek_choice = False
+            ny_choi = False
+            bar_choi = False
+            ski_choi =False
+            opp_choi = True
+        
+        if button == mouse.LEFT and nyc_but.collidepoint(pos):
+            wek_choice = False
+            ny_choi = True
+            bar_choi = False
+            ski_choi =False
+            opp_choi = False
+            cadet_life['karma'] -= 1
+        
+        if button == mouse.LEFT and barracks_but.collidepoint(pos):
+            wek_choice = False
+            bar_choi = True
+            ny_choi = False
+            ski_choi =False
+            opp_choi = False
+            cadet_life['karma'] += 2
+   
+        if button == mouse.LEFT and ski_but.collidepoint(pos):
+            wek_choice = False
+            ski_choi = True
+            ny_choi = False
+            bar_choi = False
+            opp_choi = False
+            cadet_life['karma'] -= 2
+        
+        if button == mouse.LEFT and next_button.collidepoint(pos):
+            print('next')
+            wek_choice = False
+            ski_choi = False
+            ny_choi = False
+            bar_choi = False
+            opp_choi = False
+            if cadet_life['karma'] < 2:
+                cadet_life['money'] -= 300
+            control['money_split'] = True
+            control['f_weekend'] = False
+            print('ere')
+            
+            
+    
+    if control['winter_leave'] == True:
         if button == mouse.LEFT and vermont.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 500
-            control['f_weekend'] = False
+            control['winter_leave'] = False
             control['major_event'] = True
             print(cadet_life)
             draw()
@@ -662,6 +857,7 @@ def on_mouse_down(pos, button):
         if button == mouse.LEFT:
             control['money_split'] = False
             control['year_ten'] = True
+            
     global choose_a
     global choose_b
     global choose_c
