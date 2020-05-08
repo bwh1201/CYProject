@@ -165,8 +165,8 @@ def welcome_screen():
     money = Actor('money', (250,250))
     money.draw()
     screen.draw.text('Welcome to CASH COW!',  center = (250,100), color = GOLD, fontsize = 40)
-    screen.draw.text('\n This is a game where you can practice spending \n your hard earned cow loan. \n This game was created with cadets in mind. \n Hopefully you have fun and end up making wise choices! \n Enjoy!', center = (250,240), color = BLACK, fontsize = 25)
-    screen.draw.text('Created by Nick Ashby and Blake Havern\n \n Press SPACE bar to continue', center = (250,370), color = BLACK, fontsize = 40)
+    screen.draw.text('\n This is a game where you can practice spending \n your hard earned cow loan. \n This game was created with cadets in mind. \n Hopefully you have fun and end up making wise choices! \n Enjoy!', center = (250,240), fontsize = 25)
+    screen.draw.text('Created by Nick Ashby and Blake Havern\n \n Press SPACE bar to continue', center = (250,370), color = GOLD, fontsize = 35)
     
    
 
@@ -523,20 +523,20 @@ def year_thirty():
 def the_end():
     global cadet_life
     screen.clear()
-    screen.fill(CHARTREUSE)
+    screen.fill(BLACK)
     
     money = Actor('money', (250,250))
     money.draw()
-    screen.draw.text('You have reached the end', center = (250, 100), fontsize = 30, color = BLACK)
-    screen.draw.text('You ended your journey\n with a now meaningless ' + str(cadet_life['car']) + ' car \n and $' + str(cadet_life['money']) + ' in savings', center = (260,300), fontsize = 30, color = BLACK)
-    if cadet_life['money'] > 36000 and cadet_life['mentor'] == 'good':
-        screen.draw.text('LTC Cody is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30, color = BLACK)
-    elif cadet_life['money'] > 36000 and cadet_life['mentor'] == 'x':
-        screen.draw.text('CDT X is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30, color = BLACK)    
-    elif cadet_life['money'] <= 36000 and cadet_life['mentor'] == 'good':
-        screen.draw.text('LTC Cody is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30, color = BLACK)
+    screen.draw.text('You have reached the end', center = (250, 100), fontsize = 30)
+    screen.draw.text('You ended your journey\n with a now meaningless ' + str(cadet_life['car']) + ' car \n and $' + str(cadet_life['savings_30']) + ' in savings', center = (260,300), fontsize = 30)
+    if cadet_life['brokerage_30'] > 100000 and cadet_life['mentor'] == 'good':
+        screen.draw.text('LTC Cody is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30)
+    elif cadet_life['brokerage_30'] > 100000 and cadet_life['mentor'] == 'x':
+        screen.draw.text('CDT X is proud of your choices \n and believes that you truly maximized your loan. \n congrats on a game well played', center = (260,400), fontsize = 30) 
+    elif cadet_life['brokerage'] <= 100000 and cadet_life['mentor'] == 'good':
+        screen.draw.text('LTC Cody is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30)
     else:
-        screen.draw.text('CDT X is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30, color = BLACK)
+        screen.draw.text("CDT X is dissapointed by your choices \n but hey, we've all been there, bro. \n Maybe play a few more times and see where it went wrong", center = (260,400), fontsize = 30)
 
     
 def take_quit():
@@ -680,10 +680,7 @@ def on_mouse_down(pos, button):
             control['year_twenty'] = False
             control['year_thirty'] = True
             
-    if control['year_thirty'] == True:
-        if button == mouse.LEFT:
-            control['year_thirty'] = False
-            control['end'] = True    
+    
 
             
 def on_key_down(key):
@@ -765,6 +762,10 @@ def on_key_down(key):
             control['year_twenty'] = True
         draw()
     
+    if control['year_thirty'] == True:
+        if key == keys.RETURN:
+            control['year_thirty'] = False
+            control['end'] = True
 
        
         
