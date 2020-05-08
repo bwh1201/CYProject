@@ -22,3 +22,10 @@ users will be able to see the outcomes of their decisions on the final screen.
 WORKS CITED:
 
 Pope, Daniel. “Welcome to Pygame Zero.” Welcome to Pygame Zero - Pygame Zero 1.2 Documentation, 2015, pygame-zero.readthedocs.io/en/stable/.
+Images obtained from: 
+1)	https://cdn3.iconfinder.com/data/icons/decision-making/316/decision-007-512.png
+2)	https://images.squarespace-cdn.com/content/54de20f2e4b0e11f3686d817/1424878539981-B6L82TSY754U0L4CMYAK/nyc+skyline.png?content-type=image%2Fpng
+3)	https://trematore.com/wp-content/uploads/2017/08/Westpoint6.jpg
+4)	http://clipart-library.com/img/1781431.png
+5)	https://cdn.shopify.com/s/files/1/0106/0972/products/insidecover.jpg?v=1356730675
+Buttons obtained from: Kenney.nl 

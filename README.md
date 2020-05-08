@@ -8,9 +8,10 @@ During their 3rd year at the Academy, West Point cadets are given the opportunit
 Corps of Cadets. Some cadets may be hesitant to take on such a debt at such an early age, while others are eager to spend their money on cars, engagement rings, and trips to the Caribbean.  The Cash Cow is a pygame program that allows
  cadets to practice their financial habits and receive realistic feedback before taking their Cow Loan. The feedback provided to users is based on real-world data as well as personal experiences from the creators’ own lives. 
 
-In this .tar folder you will find a few items of interest. The Cash Cow itself is located in the file titled projectCY300.py. Before running the Cash Cow program, ensure an images folder is located in the same folder as projectCY300.py, 
-as these images will show up repeatedly in the game itself. There should also be two .txt files in the .tar folder, one is this README.txt document, and the other is named sandp.txt. Ensure the latter file is in the same folder as 
-projectCY300.py as well, as The Cash Cow program relies on data from this file to simulate stock trading. 
+In this .zip folder you will find a few items of interest. The Cash Cow itself is located in the file titled projectCY300.py. Before running the Cash Cow program, ensure an images folder is located in the same folder as projectCY300.py, 
+as these images will show up repeatedly in the game itself. There should also be two .txt files in the .zip folder, one is this README.txt document, and the other is named sandp.txt. Ensure the latter file is in the same folder as 
+projectCY300.py as well, as The Cash Cow program relies on data from this file to simulate stock trading. Finally, a Python project file named text_box_class should also be in the same folder as projectCY300.py when it is run.
+This example of object oridented programming allows the user to type their name into The Cash Cow's character choice screen.
 
 There are no keystrokes or commands that need to be memorized in order to use this program. Every screen presented to the user has instructions on how to interact with the program and how to navigate to the next screen. Common tasks 
 include clicking on a button, pressing the return key, and pressing a number key (on the KEYBOARD not the KEYPAD). 
