@@ -28,14 +28,16 @@ car_expensive = Actor('car_expensive')
 
 car_expensive_text = Actor('button_default')
 
-choice_1 = Actor('element_green_rectangle', (120,250))
-choice_2 = Actor('element_blue_rectangle', (250,250))
-choice_3 = Actor('element_red_rectangle', (370,250))
+choice_1 = Actor('element_green_rectangle', (120,110))
+choice_2 = Actor('element_blue_rectangle', (250,110))
+choice_3 = Actor('element_red_rectangle', (370,110))
 choose_a = False
 choose_b = False
 choose_c = False
 
 cloud = Actor('cloud')
+
+continue_but = Actor('element_red_rectangle', center = (250,400))
 
 gender_female = Actor('button_default')
 
@@ -496,10 +498,11 @@ def big_event():
         choice_c()
     else:
         screen.draw.text('Choose option A, B, or C', center = (250,50))
-        screen.draw.text('A', center = (120,220), fontsize = 40)
-        screen.draw.text('B', center = (250,220), fontsize = 40)
-        screen.draw.text('C', center = (370,220), fontsize = 40)
-    
+        screen.draw.text('A', center = (120,143), fontsize = 40)
+        screen.draw.text('B', center = (250,143), fontsize = 40)
+        screen.draw.text('C', center = (370,143), fontsize = 40)
+        decide = Actor('decision', center = (250,300))
+        decide.draw()
         choice_1.draw()
         choice_2.draw()
         choice_3.draw()
@@ -568,7 +571,8 @@ def money_split():
     money_talk.draw()
     screen.draw.text('What percent of your ${} \n would you like to put in a brokerage account?'.format(cadet_life['money']), center = (250,250), fontsize = 30, color = GOLD)
     screen.draw.text('(1 = 10%, 2 = 20%, 3 = 30%...)', center = (250, 300))
-    screen.draw.text('click anywhere to continue', center = (250,400), color = BLACK)
+    continue_but.draw()
+    screen.draw.text('NEXT', center = (250,400), fontsize = 15, color = BLACK)
 
 def interest(P,r,n,t):
     amount = P*(1+(r/n))**(n*t)
@@ -605,6 +609,8 @@ def get_30_year(data):
 def year_ten():
     screen.clear()
     screen.fill(GRAY)
+    global cadet_life
+    cadet_life['savings'] = cadet_life['money']
     screen.draw.text("10 Years Later", center = (250, 50), color = GOLD, fontsize = 64)
     screen.draw.text('Welcome CPT {}'.format(cadet_life['name']), center = (250, 100), color = GOLD, fontsize = 32)
     cadet_life['savings_10'] = interest(cadet_life['savings'], 0.05, 1, 10)
@@ -671,7 +677,7 @@ def the_end():
     elif cadet_life['brokerage'] <= 100000 and cadet_life['mentor'] == 'good':
         screen.draw.text('LTC Cody is dissapointed by your choices \n and believes that you could have done better. \n Maybe play a few more times and see where it went wrong.', center = (260,400), fontsize = 30)
     else:
-        screen.draw.text("CDT X is dissapointed by your choices \n but hey, we've all been there, bro. \n Maybe play a few more times and see where it went wrong", center = (260,400), fontsize = 30)
+        screen.draw.text("CDT X is dissapointed by your choices \n but hey, we've all been there, bro. \n Maybe play a few more times and see \n where it went wrong", center = (260,400), fontsize = 30)
 
     
 def take_quit():
@@ -757,7 +763,7 @@ def on_mouse_down(pos, button):
         
         if button == mouse.LEFT and next_button.collidepoint(pos):
             control['mentor_choice'] = False
-            control['life_choice'] = True
+            control['winter_leave'] = True
             
     
  
@@ -833,8 +839,9 @@ def on_mouse_down(pos, button):
             opp_choi = False
             if cadet_life['karma'] < 2:
                 cadet_life['money'] -= 300
-            control['major_event'] = True
+                
             control['f_weekend'] = False
+            control['money_split'] = True
             print('ere')
             
             
@@ -850,16 +857,16 @@ def on_mouse_down(pos, button):
     
         if button == mouse.LEFT and vegas.collidepoint(pos):
             cadet_life['money'] = cadet_life['money'] - 2000
-            control['f_weekend'] = False
+            control['winter_leave'] = False
             control['major_event'] = True
             print(cadet_life)
             draw()
     
     if control['money_split'] == True:
-        if button == mouse.LEFT:
+        if button == mouse.LEFT and continue_but.collidepoint(pos):
             control['money_split'] = False
             control['year_ten'] = True
-            
+        
     global choose_a
     global choose_b
     global choose_c
@@ -871,7 +878,8 @@ def on_mouse_down(pos, button):
         if button == mouse.LEFT and choice_3.collidepoint(pos):
             choose_c = True
         if button == mouse.LEFT and next_button.collidepoint(pos):
-            control['money_split'] = True
+            control['life_choice'] = True
+            control['major_event'] = False
     
     if control['year_twenty'] == True:
         if button == mouse.LEFT:
